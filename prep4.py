@@ -94,33 +94,7 @@ class Tree:
                 size += subtree.__len__()  # could also write len(subtree)
             return size
 
-    ############################################################################
-    # Prep exercises start here
-    ############################################################################
-    def num_negatives(self) -> int:
-        """Return the number of negative integers in this tree.
-
-        Preconditions:
-            - all items in this tree are integers
-
-        Remember, 0 is *not* negative.
-
-        >>> t1 = Tree(17, [])
-        >>> t1.num_negatives()
-        0
-        """
-        if self.is_empty():
-            return 0
-        elif self._subtrees == []:
-            return 1 if self._root < 0 else 0
-        else:
-            cnt = 1 if self._root < 0 else 0
-
-            for subtree in self._subtrees:
-                cnt += subtree.num_negatives()
-
-            return cnt
-
+        
     def maximum(self: Tree) -> int:
         """Return the maximum value stored in this tree.
 
