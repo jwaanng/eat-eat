@@ -1,29 +1,3 @@
-"""CSC111 Winter 2023 Prep 4: Programming Exercises
-
-Instructions (READ THIS FIRST!)
-===============================
-
-Your task in this prep is to implement each of the unimplemented Tree methods in this file.
-Use the recursive Tree method code template---decide whether to include the "size-one" base case
-by determining whether it would be redundant.
-
-We have marked each place you need to write code with the word "TODO".
-As you complete your work in this file, delete each TODO comment.
-
-You may add additional doctests, but they will not be graded. You should test your work
-carefully before submitting it!
-
-Copyright and Usage Information
-===============================
-
-This file is provided solely for the personal and private use of students
-taking CSC111 at the University of Toronto St. George campus. All forms of
-distribution of this code, whether as given or with any changes, are
-expressly prohibited. For more information on copyright for CSC111 materials,
-please consult our Course Syllabus.
-
-This file is Copyright (c) 2023 Mario Badr, David Liu, and Diane Horton.
-"""
 from __future__ import annotations
 from typing import Any, Optional
 
@@ -93,34 +67,7 @@ class Tree:
             for subtree in self._subtrees:
                 size += subtree.__len__()  # could also write len(subtree)
             return size
-
-    ############################################################################
-    # Prep exercises start here
-    ############################################################################
-    def num_negatives(self) -> int:
-        """Return the number of negative integers in this tree.
-
-        Preconditions:
-            - all items in this tree are integers
-
-        Remember, 0 is *not* negative.
-
-        >>> t1 = Tree(17, [])
-        >>> t1.num_negatives()
-        0
-        """
-        if self.is_empty():
-            return 0
-        elif self._subtrees == []:
-            return 1 if self._root < 0 else 0
-        else:
-            cnt = 1 if self._root < 0 else 0
-
-            for subtree in self._subtrees:
-                cnt += subtree.num_negatives()
-
-            return cnt
-
+       
     def maximum(self: Tree) -> int:
         """Return the maximum value stored in this tree.
 
