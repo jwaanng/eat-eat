@@ -3,6 +3,7 @@ from typing import Optional
 from python_ta.contracts import check_contracts
 #JASON SOUl
 #Hi
+#JIJI
 class Node:
     """An abstract class that represents a location.
 
