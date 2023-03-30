@@ -1,7 +1,7 @@
 from __future__ import annotations
 from typing import Optional
 from python_ta.contracts import check_contracts
-
+#JASON SOUl
 class Node:
     """An abstract class that represents a location.
 
@@ -22,35 +22,35 @@ class Node:
         self.identifier = identifier
         self.coordinates = coordinates
         self.neighbors = {}
-    
+
     def __repr__(self) -> str:
         """Return a string representing this node."""
         return f'Node({self.identifier})'
-        
+
     def get_distance(self, target_location: Node) -> float:
         """Returns the distance between self and a target location"""
         # googlemaps api probabaly need to figure how to do that
-        ... 
+        ...
 
 
 class Restaurant(Node):
     """A child class of Node, representing a restaurant
-    
+
     Instance Attributes:
     - name:
         The name of this restaurant
-    - cuisine: 
+    - cuisine:
         The type of cuisine this restaurant offers
-    - price: 
-        An integer from 1 to 4 representing the price range of this restaurant. 
-    - type: 
-        The type of restaurant this is. 
-    - address: 
-        The street address of this restaurant 
-    
+    - price:
+        An integer from 1 to 4 representing the price range of this restaurant.
+    - type:
+        The type of restaurant this is.
+    - address:
+        The street address of this restaurant
+
     Representation Invariants:
     - self.type in ("Drinks", "Cafe", "Dessert", "Fast Food", "Dinner")
-    - ...  
+    - ...
     """
     name: str
     cuisine: str
@@ -69,13 +69,13 @@ class Restaurant(Node):
 
 class Person(Node):
     """ A child class of Node, representing one user
-    
+
     Instance Attributes:
     - price_range:
         An integer from 1 to 4 representing the price range preference of the person
     - current_restaurant_type:
         The current type of restaurant this person is in
-    # TODO : should we make a instance attribute for every preference of the person (and make it T/F) or just have a list? 
+    # TODO : should we make a instance attribute for every preference of the person (and make it T/F) or just have a list?
              I feel like the list might be kind of hard to evaluate later on - jw
     """
     price_range: int
