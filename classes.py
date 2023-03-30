@@ -27,7 +27,7 @@ class Node:
         self.neighbors = {}
 
     def __repr__(self) -> str:
-        """Return a string representing this node."""
+        """Return a string representing thidfdfds node."""
         return f'Node({self.identifier})'
 
 
