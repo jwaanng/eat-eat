@@ -2,6 +2,7 @@ from __future__ import annotations
 from typing import Optional
 from python_ta.contracts import check_contracts
 #JASON SOUl
+#Hi
 class Node:
     """An abstract class that represents a location.
 
