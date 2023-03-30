@@ -1,9 +1,8 @@
 from __future__ import annotations
 from typing import Optional
 from python_ta.contracts import check_contracts
-#JASON SOUl
-#Hi
-#JIJI
+
+
 class Node:
     """An abstract class that represents a location.
 
@@ -13,11 +12,12 @@ class Node:
     - coordinates:
         A tuple representing longitutde and latitude of the node
     - neighbors:
-        A mapping containing the ids of neighbor nodes to their TODO
+        A mapping containing the neighbor nodes where the key is the unique neighbor id and
+        the value is the corresponding neighbor node.
     """
     identifier: int
     coordinates: tuple[float, float]
-    neighbors: dict[int, tuple[Node, Node]]  # TODO: idk what the tuple is again - jw
+    neighbors: dict[int, Node]
 
     def __init__(self, identifier: int, coordinates: tuple[float, float]) -> None:
         """Initialize this node with the unique identifier and coordinate location"""
@@ -60,8 +60,9 @@ class Restaurant(Node):
     r_type: str  # r short for restaurant
     address: str
 
-    def __init__(self, name, cuisine, price, r_type, address):
-        super().__init__
+    def __init__(self, identifier: int, coordinates: tuple[float, float],
+                 name: str, cuisine: str, price: int, r_type: str, address: str):
+        super().__init__(identifier, coordinates)
         self.name = name
         self.cuisine = cuisine
         self.price = price
@@ -83,5 +84,13 @@ class Person(Node):
     price_range: int
     current_restaurant_type: str
 
-    def __init__(self):
-        ...
+    def __init__(self, identifier: int, coordinates: tuple[float, float],
+                 price_range: int, current_restaurant_type: str):
+        super().__init__(identifier, coordinates)
+
+        self.price_range = price_range
+        self.current_restaurant_type = current_restaurant_type
+
+
+class Network:
+    pass
