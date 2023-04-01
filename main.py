@@ -1,4 +1,6 @@
-from classes import Restaurant, Person, Network
+"""main"""
+
+from classes import *
 import csv
 
 
@@ -23,25 +25,33 @@ def load_restuarant_data(file: str) -> list[Restaurant]:
             )
 
             list_of_restuarants.append(restuarant_node)
+            i += 1
 
     return list_of_restuarants
 
 
-def generate_new_network(restaurants: list[Restaurant], user: Person) -> Network:
+def generate_new_network(user: Person) -> Network:
     """Generate the network based on the person's prefernce"""
-    restuarants: list[Restaurant] = _filter_restaurants(restaurants, user)
     new_network: Network = Network()
+
+    _gegenerate_new_network(new_network,
+                            user, user, 0, len(user.route_plan))
 
     return new_network
 
 
-def _filter_restaurants(restaurants: list[Restaurant], user: Person) -> list[Restaurant]:
-    """Return the new list of restaurants, which is filterd by the user's preference"""
+def _gegenerate_new_network(new_network: Network,
+                            node: Union[Restaurant, Person], user: Person, i: int, d: int) -> None:
+    """Generate the network using recursion"""
 
-    return list(filter(lambda x: x.price == user.price_range and x.restaurant_type, restaurants))
+    for neighbour in user.preference[user.route_plan[i]]:
+        new_network.add_edge(node, neighbour)
+
+        if i + 1 < d:
+            _gegenerate_new_network(new_network, neighbour, user, i + 1, d)
 
 
 if __name__ == "__main__":
     restaurant_data: list[Restaurant] = load_restuarant_data(...)
-    person: Person = Person(0, ..., )      # idk how exactly the list of perference will be
-    network: Network = generate_new_network(restaurant_data, person)
+    person: Person = Person(0, ..., )      # idk how exactly the list of perference will be inputted
+    network: Network = generate_new_network(person)
