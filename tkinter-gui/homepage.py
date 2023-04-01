@@ -2,6 +2,14 @@ from tkinter import *
 from PIL import Image, ImageTk
 import formpage
 
+
+def go_to_another_page() -> None:
+    """Directs to the 'formpage' when button is pressed"""
+    # Destroy the current window
+    window.destroy()
+    formpage.create_new_window()
+
+
 # Create the main window
 window = Tk()
 window.title("EAT EAT HOME")
@@ -47,14 +55,6 @@ try_button = Button(window, text="Try Now", font=("Didact Gothic", "10", "bold")
 try_button.pack(side=RIGHT, padx=50, pady=10)
 try_button.place(x=700, y=350)
 try_button.lift()
-
-# Define a function for the button click action
-
-
-def go_to_another_page():
-    # Destroy the current window
-    window.destroy()
-    formpage.create_new_window()
 
 
 # Set the button's command to the function that takes you to another page
