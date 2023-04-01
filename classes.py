@@ -167,7 +167,7 @@ class Network:
 
             self._nodes[node1.identifier].neighbors[node2.identifier] = self._nodes[node2.identifier]
 
-    def find_all_routes(self, user: Person) -> list[list[Node]]:
+    def _find_all_routes(self, user: Person) -> list[list[Node]]:
         """Return a list of all possible paths in this network which satifies the person's prefernce"""
 
         routes: list[list[Node]] = []
@@ -178,10 +178,23 @@ class Network:
 
         return routes
 
-    def get_distance(self, departure: Union[Restaurant, Person], destination: Union[Restaurant, Person]) -> float:
+    def get_distance(self, departure: Node, destination: Node) -> float:
         """Returns the straight distance between the departure and destination location"""
 
         x_dist: float = (destination.coordinates[0] - departure.coordinates[0]) ** 2
         y_dist: float = (destination.coordinates[1] - departure.coordinates[1]) ** 2
 
         return (x_dist + y_dist) ** 0.5
+
+    def paths_recommandation(self, user: Person) -> list[tuple[list[Node], float]]:
+        """Return a sorted list of all possible paths in this network which satifies the person's prefernce by
+        ascending distance order"""
+
+        routes: list[tuple[list[Node], float]] = []
+
+        for route in self._find_all_routes(user):
+            routes.append((route, sum(self.get_distance(route[i], route[i + 1]) for i in range(len(route) - 1))))
+
+        routes.sort(key=lambda x: x[1])
+
+        return routes
