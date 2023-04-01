@@ -1,24 +1,25 @@
 from __future__ import annotations
-from typing import Optional, Union
+from typing import Union
 from python_ta.contracts import check_contracts
 
 
 @check_contracts
-class Node:
+class _Node:
     """An abstract class that represents a location.
 
     Instance Attributes
     - identifier:
         The id is an integer value that uniquely identifies each node
     - coordinates:
-        A tuple representing longitutde and latitude of the node
+        For the restaurant: A tuple representing longitutde and latitude of the restaurant's address
+        For the person: A person's
     - neighbors:
         A mapping containing the neighbor nodes where the key is the unique neighbor id and
         the value is the corresponding neighbor node.
     """
     identifier: int
     coordinates: tuple[float, float]
-    neighbors: dict[int, Node]
+    neighbors: dict[int, _Node]
 
     def __init__(self, identifier: int, coordinates: tuple[float, float]) -> None:
         """Initialize this node with the unique identifier and coordinate location"""
@@ -32,18 +33,14 @@ class Node:
 
 
 @check_contracts
-class Restaurant(Node):
+class Restaurant(_Node):
     """A child class of Node, representing a restaurant
 
     Instance Attributes:
-    - name:
-        The name of this restaurant
-    - price:
-        An integer from 1 to 4 representing the price range of this restaurant.
-    - type:
-        The type of restaurant this is.
-    - address:
-        The street address of this restaurant
+    - name: The name of this restaurant
+    - price: An integer from 1 to 4 representing the price range of this restaurant.
+    - type: The type of restaurant this is.
+    - address: The street address of this restaurant
 
     Representation Invariants:
     - self.type in ("Drinks", "Cafe", "Dessert", "Fast Food", "Dinner")
@@ -55,73 +52,93 @@ class Restaurant(Node):
     address: str
 
     def __init__(self, identifier: int, coordinates: tuple[float, float],
-                 name: str, cuisine: str, price: int, r_type: str, address: str):
+                 name: str, price: int, restaurant_type: str, address: str):
         super().__init__(identifier, coordinates)
 
         self.name = name
-        self.cuisine = cuisine
         self.price = price
-        self.r_type = r_type
+        self.r_type = restaurant_type
         self.address = address
+
+    def __str__(self):
+        return f"Restaurant: {self.name}, price: {'$' * self.price}, type: {self.r_type}, address: {self.address}"
 
 
 @check_contracts
-class Person(Node):
+class Person(_Node):
     """ A child class of Node, representing one user
 
     Instance Attributes:
-    - price_range:
-        An integer from 1 to 4 representing the price range preference of the person
-    # TODO : should we make a instance attribute for every preference of the person (and make it T/F) or just have a list?
-             I feel like the list might be kind of hard to evaluate later on - jw
+        - max_price_range: A person's maximum price range willing to take
+        - preferences: ... # TODO
     """
-    price_range: int
-    preferences: list
+
+    route_plan: list[tuple[str, int]]                        # [(restaurant type, price range)]
+    preference: dict[tuple[str, int], list[Restaurant]]      # {restaurant type: Restaurant}
+    possible_options: list[Restaurant]                       # [restaurant name]
 
     def __init__(self, identifier: int, coordinates: tuple[float, float],
-                 price_range: int, current_restaurant_type: str, preferences: list) -> None:
+                 route_plan: list[tuple[str, int]], restaurant_data: list[Restaurant]) -> None:
         super().__init__(identifier, coordinates)
 
-        self.price_range = price_range
-        self.current_restaurant_type = current_restaurant_type
-        self.preferences = preferences.copy()
+        self.route_plan = route_plan.copy()
+        self.preference = self.update_preferences(route_plan)
+        self.possible_options = restaurant_data.copy()
 
-    def update_preferences(self, new_preferences: list) -> None:
+    def update_preferences(self, new_route_plan: list[tuple[str, int]]) -> dict[tuple[str, int], list[Restaurant]]:
         """Update the person's preferences"""
-        self.preferences = new_preferences.copy()
+
+        new_preference: dict[tuple[str, int], list[Restaurant]] = {}
+
+        for k in new_route_plan:
+            if k not in new_preference:
+                new_preference[k] = list(filter(lambda x: x.r_type == k[0] and x.price == k[1], self.possible_options))
+
+        return new_preference
 
 
+@check_contracts
 class Network:
     """A class that represents the network.
 
     Instance Attributes:
-    - _nodes: The collection of the existing nodes in the network, where the key is the id of the node
-              and the value is the corresponding node
+        - _nodes: The collection of the existing nodes in the network, where the key is the node's unique
+                  identifier and the value is the corresponding node
 
     Representation Invariants:
-    - ...
+        - all(identifier == self._nodes[identifier].identifier for identifier in self._nodes)
     """
 
-    _nodes: dict[int, Node]
+    _nodes: dict[int, Union[Person, Restaurant]]
 
     def __init__(self):
         self._nodes = {}
 
-    def add_restaurant(self, id: int, coordinates: tuple[float, float],
-                 name: str, cuisine: str, price: int, r_type: str, address: str) -> None:
-        """Add node to the network
-        Raise ValueError if the given id is not unique"""
+    def add_restaurant(self, identifier: int, coordinates: tuple[float, float],
+                       name: str, price: int, r_type: str, address: str) -> Restaurant:
+        """Add node to the network.
 
-        if id in self._nodes:
-            raise ValueError('Given id exists in the network')
+        Preconditions:
+            - id not in self._nodes
+        """
 
-        new_restaurant: Restaurant = Restaurant(id, coordinates, name, cuisine, price, r_type, address)
+        new_restaurant: Restaurant = Restaurant(identifier, coordinates, name, price, r_type, address)
+        self._nodes[identifier] = new_restaurant
 
+        return new_restaurant
 
-    def add_edge(self, node1: Union[Restaurant, Person], node2: Union[Restaurant, Person]) -> None:
-        """"""
+    def add_edge(self, node1: int, node2: int) -> None:
+        """Connect the edge that leads node1 to node2.
+        Note that the edge is not a bi-direction.
 
-    def get_distance(self, cuurent_location: Node, destination: Node) -> float:
+        Preconditions:
+            - node1 in self._nodes
+            - node2 not in self._nodes[node1].neighbors
+        """
+
+        self._nodes[node1].neighbors[node2] = self._nodes[node2]
+
+    def get_distance(self, cuurent_location: _Node, destination: _Node) -> float:
         """Returns the distance between self and a target location"""
         # googlemaps api probabaly need to figure how to do that
         ...
