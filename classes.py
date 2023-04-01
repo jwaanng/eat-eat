@@ -82,17 +82,22 @@ class Person(_Node):
         super().__init__(identifier, coordinates)
 
         self.route_plan = route_plan.copy()
-        self.preference = self.update_preferences(route_plan)
         self.possible_options = restaurant_data.copy()
+        self.preference = self._update_preferences(route_plan)
 
-    def update_preferences(self, new_route_plan: list[tuple[str, int]]) -> dict[tuple[str, int], list[Restaurant]]:
+    def update_preferences(self, new_route_plan: list[tuple[str, int]]) -> None:
+        """Update the person's preferences"""
+
+        self.preference = self._update_preferences(new_route_plan)
+
+    def _update_preferences(self, new_route_plan: list[tuple[str, int]]) -> dict[tuple[str, int], list[Restaurant]]:
         """Update the person's preferences"""
 
         new_preference: dict[tuple[str, int], list[Restaurant]] = {}
 
         for k in new_route_plan:
             if k not in new_preference:
-                new_preference[k] = list(filter(lambda x: x.r_type == k[0] and x.price == k[1], self.possible_options))
+                new_preference[k] = list(filter(lambda x: x.r_type == k[0] and x.price <= k[1], self.possible_options))
 
         return new_preference
 
@@ -114,20 +119,16 @@ class Network:
     def __init__(self):
         self._nodes = {}
 
-    def add_restaurant(self, identifier: int, coordinates: tuple[float, float],
-                       name: str, price: int, r_type: str, address: str) -> Restaurant:
+    def add_node(self, node: Union[Restaurant, Person]) -> None:
         """Add node to the network.
 
         Preconditions:
             - id not in self._nodes
         """
 
-        new_restaurant: Restaurant = Restaurant(identifier, coordinates, name, price, r_type, address)
-        self._nodes[identifier] = new_restaurant
+        self._nodes[node.identifier] = node
 
-        return new_restaurant
-
-    def add_edge(self, node1: int, node2: int) -> None:
+    def add_edge(self, node1: Union[Restaurant, Person], node2: Union[Restaurant, Person]) -> None:
         """Connect the edge that leads node1 to node2.
         Note that the edge is not a bi-direction.
 
@@ -136,7 +137,13 @@ class Network:
             - node2 not in self._nodes[node1].neighbors
         """
 
-        self._nodes[node1].neighbors[node2] = self._nodes[node2]
+        if node1.identifier not in self._nodes:
+            self.add_node(node1)
+
+        if node2.identifier not in self._nodes:
+            self.add_node(node2)
+
+        self._nodes[node1.identifier].neighbors[node2.identifier] = self._nodes[node2.identifier]
 
     def get_distance(self, cuurent_location: _Node, destination: _Node) -> float:
         """Returns the distance between self and a target location"""
