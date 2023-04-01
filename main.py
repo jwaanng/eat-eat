@@ -95,15 +95,15 @@ def generate_new_network_test() -> None:
     #   drinks: 11, 12, 14, 16
     #   cafe: 111, 113, 114
     test_network: Network = generate_new_network(person1)
-    routes: list[list[Node]] = test_network.find_all_routes(person1)
+    routes: list[tuple[list[Node], float]] = test_network.paths_recommandation(person1)
 
     print(len(routes))
     print(len(routes) == 48)
-    new_line = routes[0][0]
+    new_line = routes[0][0][1]
 
     for route in routes:
-        if route[0] != new_line:
-            new_line = route[0]
+        if route[0][1] != new_line:
+            new_line = route[0][1]
             print()
 
         print(route)
