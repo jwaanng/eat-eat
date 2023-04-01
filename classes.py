@@ -1,10 +1,12 @@
+"""Necessary classes for the project"""
+
 from __future__ import annotations
 from typing import Union
 from python_ta.contracts import check_contracts
 
 
 @check_contracts
-class _Node:
+class Node:
     """An abstract class that represents a location.
 
     Instance Attributes
@@ -19,7 +21,7 @@ class _Node:
     """
     identifier: int
     coordinates: tuple[float, float]
-    neighbors: dict[int, _Node]
+    neighbors: dict[int, Node]
 
     def __init__(self, identifier: int, coordinates: tuple[float, float]) -> None:
         """Initialize this node with the unique identifier and coordinate location"""
@@ -27,13 +29,31 @@ class _Node:
         self.coordinates = coordinates
         self.neighbors = {}
 
+    def find_all_routes(self, path_length: int, visited: set[Node]) -> list[list[Node]]:
+        """Return all possible routes that matches user route plan preference"""
+        if len(visited) == path_length - 1:
+            return [[self]]
+
+        routes: list[list[Node]] = []
+
+        visited.add(self)
+
+        for neighbour in self.neighbors.values():
+            if neighbour not in visited:
+                for route in neighbour.find_all_routes(path_length, visited):
+                    routes.append([self] + route)
+
+        visited.remove(self)
+
+        return routes
+
     def __repr__(self) -> str:
         """Return a string representing this node."""
         return f'Node({self.identifier})'
 
 
 @check_contracts
-class Restaurant(_Node):
+class Restaurant(Node):
     """A child class of Node, representing a restaurant
 
     Instance Attributes:
@@ -60,12 +80,13 @@ class Restaurant(_Node):
         self.r_type = restaurant_type
         self.address = address
 
-    def __str__(self):
-        return f"Restaurant: {self.name}, price: {'$' * self.price}, type: {self.r_type}, address: {self.address}"
+    def __repr__(self):
+        # return f"Restaurant: {self.name}, price: {'$' * self.price}, type: {self.r_type}, address: {self.address}"
+        return f"Restaurant: {self.identifier}"     # TODO this is simplified str representation for testing purpose
 
 
 @check_contracts
-class Person(_Node):
+class Person(Node):
     """ A child class of Node, representing one user
 
     Instance Attributes:
@@ -73,21 +94,22 @@ class Person(_Node):
         - preferences: ... # TODO
     """
 
-    route_plan: list[tuple[str, int]]                        # [(restaurant type, price range)]
-    preference: dict[tuple[str, int], list[Restaurant]]      # {restaurant type: Restaurant}
-    possible_options: list[Restaurant]                       # [restaurant name]
+    route_plan: list[tuple[str, int]]                         # [(restaurant type, price range)]
+    preference: dict[tuple[str, int], list[Restaurant]]       # {restaurant type: corresponding possible restaurants}
+    _possible_options: list[Restaurant]                       # [All possible restaurants]
 
     def __init__(self, identifier: int, coordinates: tuple[float, float],
                  route_plan: list[tuple[str, int]], restaurant_data: list[Restaurant]) -> None:
         super().__init__(identifier, coordinates)
 
         self.route_plan = route_plan.copy()
-        self.possible_options = restaurant_data.copy()
+        self._possible_options = restaurant_data.copy()
         self.preference = self._update_preferences(route_plan)
 
     def update_preferences(self, new_route_plan: list[tuple[str, int]]) -> None:
         """Update the person's preferences"""
 
+        self.route_plan = new_route_plan.copy()
         self.preference = self._update_preferences(new_route_plan)
 
     def _update_preferences(self, new_route_plan: list[tuple[str, int]]) -> dict[tuple[str, int], list[Restaurant]]:
@@ -97,7 +119,7 @@ class Person(_Node):
 
         for k in new_route_plan:
             if k not in new_preference:
-                new_preference[k] = list(filter(lambda x: x.r_type == k[0] and x.price <= k[1], self.possible_options))
+                new_preference[k] = list(filter(lambda x: x.r_type == k[0] and x.price <= k[1], self._possible_options))
 
         return new_preference
 
@@ -123,7 +145,7 @@ class Network:
         """Add node to the network.
 
         Preconditions:
-            - id not in self._nodes
+            - node.identifier not in self._nodes
         """
 
         self._nodes[node.identifier] = node
@@ -133,19 +155,33 @@ class Network:
         Note that the edge is not a bi-direction.
 
         Preconditions:
-            - node1 in self._nodes
             - node2 not in self._nodes[node1].neighbors
         """
 
-        if node1.identifier not in self._nodes:
-            self.add_node(node1)
+        if node1.identifier != node2.identifier:
+            if node1.identifier not in self._nodes:
+                self.add_node(node1)
 
-        if node2.identifier not in self._nodes:
-            self.add_node(node2)
+            if node2.identifier not in self._nodes:
+                self.add_node(node2)
 
-        self._nodes[node1.identifier].neighbors[node2.identifier] = self._nodes[node2.identifier]
+            self._nodes[node1.identifier].neighbors[node2.identifier] = self._nodes[node2.identifier]
 
-    def get_distance(self, cuurent_location: _Node, destination: _Node) -> float:
-        """Returns the distance between self and a target location"""
-        # googlemaps api probabaly need to figure how to do that
-        ...
+    def find_all_routes(self, user: Person) -> list[list[Node]]:
+        """Return a list of all possible paths in this network which satifies the person's prefernce"""
+
+        routes: list[list[Node]] = []
+        route_length = len(user.route_plan)
+
+        for neighbour in user.neighbors.values():
+            routes.extend(neighbour.find_all_routes(route_length, set()))
+
+        return routes
+
+    def get_distance(self, departure: Union[Restaurant, Person], destination: Union[Restaurant, Person]) -> float:
+        """Returns the straight distance between the departure and destination location"""
+
+        x_dist: float = (destination.coordinates[0] - departure.coordinates[0]) ** 2
+        y_dist: float = (destination.coordinates[1] - departure.coordinates[1]) ** 2
+
+        return (x_dist + y_dist) ** 0.5
