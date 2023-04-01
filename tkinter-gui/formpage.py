@@ -6,14 +6,13 @@ from python_ta.contracts import check_contracts
 #######################################################################################################################################
 
 
-@check_contracts
 def validate_input(select_places):
     """This function takes in the input from user and verifies if the input is valid.
-    Valid: is an integer and 0 <= select_places <= 10 
+    Valid: is an integer and 0 <= select_places <= 10
 
     Preconditions:
-    - select_places.type() == StringVar
-    - select_places >= 0 and select_places <= 10
+        - select_places.type() == StringVar
+        - select_places >= 0 and select_places <= 10
     """
     if select_places == "":
         return None
@@ -23,25 +22,46 @@ def validate_input(select_places):
         return False
 
 
+@check_contracts
+def get_selections(selected_places: list, selected_budgets: list) -> list[tuple[str, str]]:
+    """Gives a list of the strings of each place chosen by user in the
+
+    Preconditions:
+        - len(selected_places) == len(selected_budgets)
+        - len(selected_places) >= 1
+    """
+    selected_budgets = [budget.get() for budget in selected_budgets]
+    selected_places = [place.get() for place in selected_places]
+
+    selections = [(str(selected_places[i]), str(selected_budgets[i]))
+                  for i in range(len(selected_places))]
+
+    # print(selected_budgets)
+    # print(selections)
+    return selections
+
+
 def places_select(num_places: int, window: str) -> None:
     """This function takes in the input number of places and returns that number of radio selections"""
     options = ['Cafe', 'Dessert', 'Dinner', 'Drinks',
                'Fast Food', 'Lunch', 'Doesn\'t Matter']
-    selected_places = []
+    budget_options = ['$', '$$', '$$$', '$$$$']
 
-    def get_selections():
-        """Gives a list of the strings of each place chosen by user in the"""
-        nonlocal selected_places
-        selected_places = [place.get() for place in selected_places]
-        print(selected_places)
+    # holding current selections in order
+    selected_places = []
+    selected_budgets = []
 
     for i in range(num_places):
+        # Variables for holding current selection
         selected_place = StringVar()
+        selected_budget = StringVar()
+
+        # Radio Frame for type of place
         radio_frame = Frame(window, bg="#f2f2f2", padx=20, pady=20)
         group_label = "Place Number" + str(i+1) + ":"
         label = Label(radio_frame, text=group_label, font=(
             "Didact Gothic", 15), bg="#f2f2f2", fg="#26547c")
-        label.pack(side=LEFT)
+        label.pack()
 
         for option in options:
             button = Radiobutton(radio_frame, text=option, variable=selected_place, value=option, font=(
@@ -51,8 +71,23 @@ def places_select(num_places: int, window: str) -> None:
 
         selected_places.append(selected_place)
 
-    button = Button(window, text="Submit selections", command=get_selections, font=("Didact Gothic", 10), bg="#26547c", fg="#ffffff",
-                    padx=5, pady=5, activebackground="#f2f2f2", activeforeground="#26547c")
+        # Radio Frame for budget
+        radio_frame = Frame(window, bg="#f2f2f2", padx=20, pady=20)
+        group_label = "Budget for place:" + str(i+1) + ":"
+        label = Label(radio_frame, text=group_label, font=(
+            "Didact Gothic", 15), bg="#f2f2f2", fg="#26547c")
+        label.pack()
+
+        for budget in budget_options:
+            button = Radiobutton(radio_frame, text=budget, variable=selected_budget, value=budget, font=(
+                "Didact Gothic", 15), bg="#f2f2f2", activebackground="#f2f2f2", fg="#26547c", activeforeground="#26547c")
+            button.pack(side=LEFT, padx=20)
+        radio_frame.pack()
+
+        selected_budgets.append(selected_budget)
+
+    button = Button(window, text="Submit selections", command=lambda: get_selections(selected_places=selected_places, selected_budgets=selected_budgets), font=(
+        "Didact Gothic", 10), bg="#26547c", fg="#ffffff", padx=5, pady=5, activebackground="#f2f2f2", activeforeground="#26547c")
     button.pack()
 
 
@@ -61,34 +96,6 @@ def create_new_window() -> None:
     window = Tk()
     window.title("EAT EAT FORM")
     window.geometry("1200x800")
-
-    #######################################################################################################################################
-    # BUDGET QUESTION
-    #######################################################################################################################################
-    selected_budget = StringVar()
-
-    budget_label = Label(window, text="What is your budget?", font=(
-        "Didact Gothic", 18), fg="#26547c", padx=10, pady=10)
-    budget_label.pack()
-
-    radio_frame = Frame(window, bg="#f2f2f2", padx=20, pady=20)
-    radio_frame.pack()
-
-    option_1 = Radiobutton(radio_frame, text="$", variable=selected_budget, value="$", font=(
-        "Didact Gothic", 15), bg="#f2f2f2", activebackground="#f2f2f2", fg="#26547c", activeforeground="#26547c")
-    option_1.pack(side=LEFT, padx=20)
-
-    option_2 = Radiobutton(radio_frame, text="$$", variable=selected_budget, value="$$", font=(
-        "Didact Gothic", 15), bg="#f2f2f2", activebackground="#f2f2f2", fg="#26547c", activeforeground="#26547c")
-    option_2.pack(side=LEFT, padx=20)
-
-    option_3 = Radiobutton(radio_frame, text="$$$", variable=selected_budget, value="$$$", font=(
-        "Didact Gothic", 15), bg="#f2f2f2", activebackground="#f2f2f2", fg="#26547c", activeforeground="#26547c")
-    option_3.pack(side=LEFT, padx=20)
-
-    option_4 = Radiobutton(radio_frame, text="$$$$", variable=selected_budget, value="$$$$", font=(
-        "Didact Gothic", 15), bg="#f2f2f2", activebackground="#f2f2f2", fg="#26547c", activeforeground="#26547c")
-    option_4.pack(side=LEFT, padx=20)
 
     #######################################################################################################################################
     # Places Question
@@ -110,14 +117,10 @@ def create_new_window() -> None:
                            padx=5, pady=5, activebackground="#f2f2f2", activeforeground="#26547c", command=lambda: places_select(num_places.get(), window))
     submit_button.pack()
 
+    # TODO: SOME IMPLEMENTATION OF THE MAP HERE
+
     # Run the main loop for the new window
     window.mainloop()
 
 
 create_new_window()
-# window = Tk()
-# window.title("EAT EAT FORM")
-# window.geometry("1200x800")
-
-# places_select(2, window)
-# window.mainloop()
