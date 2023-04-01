@@ -7,3 +7,7 @@ views = Blueprint('views', __name__,template_folder='templates', static_folder='
 @views.route('/')
 def landing_page():
     return render_template("base.html")
+
+@views.route('/forms')
+def form_page():
+    return render_template("form.html")
