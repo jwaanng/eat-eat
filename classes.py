@@ -108,15 +108,15 @@ class Network:
         self._nodes = {}
 
     def add_restaurant(self, id: int, coordinates: tuple[float, float],
-                 name: str, cuisine: str, price: int, r_type: str, address: str) -> None:
+                       name: str, cuisine: str, price: int, r_type: str, address: str) -> None:
         """Add node to the network
         Raise ValueError if the given id is not unique"""
 
         if id in self._nodes:
             raise ValueError('Given id exists in the network')
 
-        new_restaurant: Restaurant = Restaurant(id, coordinates, name, cuisine, price, r_type, address)
-
+        new_restaurant: Restaurant = Restaurant(
+            id, coordinates, name, cuisine, price, r_type, address)
 
     def add_edge(self, node1: Union[Restaurant, Person], node2: Union[Restaurant, Person]) -> None:
         """"""
