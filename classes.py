@@ -103,7 +103,7 @@ class Person(Node):
         - preferences: ... # TODO
     """
 
-    route_plan: list[tuple[Union[str, None], int]]                         # [(restaurant type, price range)]
+    route_plan: list[tuple[Union[str, None], int]]            # [(restaurant type, price range)]
     preference: dict[tuple[str, int], list[Restaurant]]       # {restaurant type: corresponding possible restaurants}
     _possible_options: list[Restaurant]                       # [All possible restaurants]
 
