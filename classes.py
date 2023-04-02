@@ -33,10 +33,10 @@ class Node:
         self.coordinates = coordinates
         self.neighbours = {}
 
-    def find_all_routes(self, path_length: int, visited: set[Node]) -> list[list[Node]]:
+    def find_all_routes(self, route_length: int, visited: set[Node]) -> list[list[Node]]:
         """Return all possible routes that matches user route plan preference"""
 
-        if len(visited) == path_length:
+        if len(visited) == route_length:
             return [[self]]
 
         routes: list[list[Node]] = []
@@ -45,7 +45,7 @@ class Node:
 
         for neighbour in self.neighbours.values():
             if neighbour not in visited:
-                for route in neighbour.find_all_routes(path_length, visited):
+                for route in neighbour.find_all_routes(route_length, visited):
                     routes.append([self] + route)
 
         visited.remove(self)
@@ -62,16 +62,16 @@ class Restaurant(Node):
     """A class which represents the restaurant node in the network
 
     Instance Attributes:
-    - name: The name of this restaurant.
-    - price: An integer from 1 to 4 representing the price range of this restaurant.
-    - r_type: The type of restaurant this is.
-    - address: The street address of this restaurant.
+        - name: The name of this restaurant.
+        - price: An integer from 1 to 4 representing the price range of this restaurant.
+        - r_type: The type of restaurant this is.
+        - address: The street address of this restaurant.
 
     Representation Invariants:
-    - self.name != ''
-    - 0 < self.price < 5
-    - self.r_type in ("Drinks", "Cafe", "Dessert", "Fast Food", "Dinner")
-    - self.address != ''
+        - self.name != ''
+        - 0 < self.price < 5
+        - self.r_type in {"Drinks", "Cafe", "Dessert", "Fast Food", "Dinner"}
+        - self.address != ''
     """
 
     name: str
