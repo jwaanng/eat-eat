@@ -40,7 +40,7 @@ def generate_new_network(user: Person) -> Network:
 
 
 def _generate_new_network(new_network: Network,
-                            node: Union[Restaurant, Person], user: Person, i: int, d: int) -> None:
+                          node: Union[Restaurant, Person], user: Person, i: int, d: int) -> None:
     """Generate the network using recursion"""
 
     for neighbour in user.preference[user.route_plan[i]]:
@@ -59,6 +59,7 @@ def update_user_preference(user: Person, new_preference: list[tuple[str, int]]) 
 
 
 def generate_new_network_test() -> None:
+    """test generate network"""
     # dinner
     restaurant1: Restaurant = Restaurant(1, (0, 0), 'dinner1', 3, 'dinner', 'asdf')
     restaurant2: Restaurant = Restaurant(2, (0, 0), 'dinner2', 1, 'dinner', 'asdf')
@@ -110,8 +111,8 @@ def generate_new_network_test() -> None:
 
 
 if __name__ == "__main__":
-    # restaurant_data: list[Restaurant] = load_restuarant_data(...)
-    # person: Person = Person(0, ..., )      # idk how exactly the list of perference will be inputted
-    # network: Network = generate_new_network(person)
+    restaurant_data: list[Restaurant] = load_restuarant_data(...)
+    person: Person = Person(0, ..., )      # idk how exactly the list of perference will be inputted
+    network: Network = generate_new_network(person)
 
-    generate_new_network_test()
+    # generate_new_network_test()

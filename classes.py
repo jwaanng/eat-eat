@@ -14,23 +14,28 @@ class Node:
         The id is an integer value that uniquely identifies each node
     - coordinates:
         For the restaurant: A tuple representing longitutde and latitude of the restaurant's address
-        For the person: A person's
+        For the person: A tuple representing longitutde and latitude of the the person's current location
     - neighbors:
         A mapping containing the neighbor nodes where the key is the unique neighbor id and
         the value is the corresponding neighbor node.
+
+     Representation Invariants:
+     - self.identifier not in self.neighbours
+     - all(neighbour == self.neighbour[neighbour].identifier for neighbour in self.neighbours)
     """
     identifier: int
     coordinates: tuple[float, float]
-    neighbors: dict[int, Node]
+    neighbours: dict[int, Node]
 
     def __init__(self, identifier: int, coordinates: tuple[float, float]) -> None:
         """Initialize this node with the unique identifier and coordinate location"""
         self.identifier = identifier
         self.coordinates = coordinates
-        self.neighbors = {}
+        self.neighbours = {}
 
     def find_all_routes(self, path_length: int, visited: set[Node]) -> list[list[Node]]:
         """Return all possible routes that matches user route plan preference"""
+
         if len(visited) == path_length - 1:
             return [[self]]
 
@@ -38,7 +43,7 @@ class Node:
 
         visited.add(self)
 
-        for neighbour in self.neighbors.values():
+        for neighbour in self.neighbours.values():
             if neighbour not in visited:
                 for route in neighbour.find_all_routes(path_length, visited):
                     routes.append([self] + route)
@@ -54,17 +59,17 @@ class Node:
 
 @check_contracts
 class Restaurant(Node):
-    """A child class of Node, representing a restaurant
+    """A class which represents the restaurant node in the network
 
     Instance Attributes:
-    - name: The name of this restaurant
+    - name: The name of this restaurant.
     - price: An integer from 1 to 4 representing the price range of this restaurant.
-    - type: The type of restaurant this is.
-    - address: The street address of this restaurant
+    - r_type: The type of restaurant this is.
+    - address: The street address of this restaurant.
 
     Representation Invariants:
-    - self.type in ("Drinks", "Cafe", "Dessert", "Fast Food", "Dinner")
-    - ...
+    - self.r_type in ("Drinks", "Cafe", "Dessert", "Fast Food", "Dinner")
+    - ...   # TODO
     """
     name: str
     price: int
@@ -72,7 +77,9 @@ class Restaurant(Node):
     address: str
 
     def __init__(self, identifier: int, coordinates: tuple[float, float],
-                 name: str, price: int, restaurant_type: str, address: str):
+                 name: str, price: int, restaurant_type: str, address: str) -> None:
+        """Initialize this restaurant with the given arguments."""
+
         super().__init__(identifier, coordinates)
 
         self.name = name
@@ -80,7 +87,9 @@ class Restaurant(Node):
         self.r_type = restaurant_type
         self.address = address
 
-    def __repr__(self):
+    def __repr__(self) -> str:
+        """Return a string representing this restaurant"""
+
         # return f"Restaurant: {self.name}, price: {'$' * self.price}, type: {self.r_type}, address: {self.address}"
         return f"Restaurant: {self.identifier}"     # TODO this is simplified str representation for testing purpose
 
@@ -90,11 +99,11 @@ class Person(Node):
     """ A child class of Node, representing one user
 
     Instance Attributes:
-        - max_price_range: A person's maximum price range willing to take
+        - route_plan: It represents person's
         - preferences: ... # TODO
     """
 
-    route_plan: list[tuple[str, int]]                         # [(restaurant type, price range)]
+    route_plan: list[tuple[Union[str, None], int]]                         # [(restaurant type, price range)]
     preference: dict[tuple[str, int], list[Restaurant]]       # {restaurant type: corresponding possible restaurants}
     _possible_options: list[Restaurant]                       # [All possible restaurants]
 
@@ -165,7 +174,7 @@ class Network:
             if node2.identifier not in self._nodes:
                 self.add_node(node2)
 
-            self._nodes[node1.identifier].neighbors[node2.identifier] = self._nodes[node2.identifier]
+            self._nodes[node1.identifier].neighbours[node2.identifier] = self._nodes[node2.identifier]
 
     def _find_all_routes(self, user: Person) -> list[list[Node]]:
         """Return a list of all possible paths in this network which satifies the person's prefernce"""
@@ -173,7 +182,7 @@ class Network:
         routes: list[list[Node]] = []
         route_length = len(user.route_plan)
 
-        for neighbour in user.neighbors.values():
+        for neighbour in user.neighbours.values():
             routes.extend(neighbour.find_all_routes(route_length, set()))
 
         return routes
