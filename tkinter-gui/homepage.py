@@ -15,7 +15,7 @@ class HomePage:
         image = Image.open('./images/background.jpeg')
 
         # Resize the image to fit the window
-        image = image.resize((1200, 800), Image.ANTIALIAS)
+        image = image.resize((1200, 800), Image.LANCZOS)
 
         # Create a PhotoImage object from the resized image
         self.photo = ImageTk.PhotoImage(image)
