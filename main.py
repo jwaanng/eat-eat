@@ -61,42 +61,42 @@ def update_user_preference(user: Person, new_preference: list[tuple[str, int]]) 
 def generate_new_network_test() -> None:
     """test generate network"""
     # dinner
-    restaurant1: Restaurant = Restaurant(1, (0, 0), 'dinner1', 3, 'dinner', 'asdf')
-    restaurant2: Restaurant = Restaurant(2, (0, 0), 'dinner2', 1, 'dinner', 'asdf')
-    restaurant3: Restaurant = Restaurant(3, (0, 0), 'dinner3', 2, 'dinner', 'asdf')
-    restaurant4: Restaurant = Restaurant(4, (0, 0), 'dinner4', 4, 'dinner', 'asdf')
-    restaurant5: Restaurant = Restaurant(5, (0, 0), 'dinner5', 3, 'dinner', 'asdf')
-    restaurant6: Restaurant = Restaurant(6, (0, 0), 'dinner6', 4, 'dinner', 'asdf')
+    restaurant1: Restaurant = Restaurant(1, (0, 0), 'dinner1', 3, 'Dinner', 'asdf')
+    restaurant2: Restaurant = Restaurant(2, (0, 0), 'dinner2', 1, 'Dinner', 'asdf')
+    restaurant3: Restaurant = Restaurant(3, (0, 0), 'dinner3', 2, 'Dinner', 'asdf')
+    restaurant4: Restaurant = Restaurant(4, (0, 0), 'dinner4', 4, 'Dinner', 'asdf')
+    restaurant5: Restaurant = Restaurant(5, (0, 0), 'dinner5', 3, 'Dinner', 'asdf')
+    restaurant6: Restaurant = Restaurant(6, (0, 0), 'dinner6', 4, 'Dinner', 'asdf')
 
     # drinks
-    restaurant11: Restaurant = Restaurant(11, (0, 0), 'drink1', 2, 'drinks', 'asdf')
-    restaurant12: Restaurant = Restaurant(12, (0, 0), 'drink2', 1, 'drinks', 'asdf')
-    restaurant13: Restaurant = Restaurant(13, (0, 0), 'drink3', 3, 'drinks', 'asdf')
-    restaurant14: Restaurant = Restaurant(14, (0, 0), 'drink4', 2, 'drinks', 'asdf')
-    restaurant15: Restaurant = Restaurant(15, (0, 0), 'drink5', 4, 'drinks', 'asdf')
-    restaurant16: Restaurant = Restaurant(16, (0, 0), 'drink6', 2, 'drinks', 'asdf')
+    restaurant11: Restaurant = Restaurant(11, (0, 0), 'drink1', 2, 'Drinks', 'asdf')
+    restaurant12: Restaurant = Restaurant(12, (0, 0), 'drink2', 1, 'Drinks', 'asdf')
+    restaurant13: Restaurant = Restaurant(13, (0, 0), 'drink3', 3, 'Drinks', 'asdf')
+    restaurant14: Restaurant = Restaurant(14, (0, 0), 'drink4', 2, 'Drinks', 'asdf')
+    restaurant15: Restaurant = Restaurant(15, (0, 0), 'drink5', 4, 'Drinks', 'asdf')
+    restaurant16: Restaurant = Restaurant(16, (0, 0), 'drink6', 2, 'Drinks', 'asdf')
 
     # cafe
-    restaurant111: Restaurant = Restaurant(111, (0, 0), 'cafe1', 2, 'cafe', 'asdf')
-    restaurant112: Restaurant = Restaurant(112, (0, 0), 'cafe1', 3, 'cafe', 'asdf')
-    restaurant113: Restaurant = Restaurant(113, (0, 0), 'cafe1', 1, 'cafe', 'asdf')
-    restaurant114: Restaurant = Restaurant(114, (0, 0), 'cafe1', 1, 'cafe', 'asdf')
-    restaurant115: Restaurant = Restaurant(115, (0, 0), 'cafe1', 4, 'cafe', 'asdf')
-    restaurant116: Restaurant = Restaurant(116, (0, 0), 'cafe1', 4, 'cafe', 'asdf')
+    restaurant111: Restaurant = Restaurant(111, (0, 0), 'cafe1', 2, 'Cafe', 'asdf')
+    restaurant112: Restaurant = Restaurant(112, (0, 0), 'cafe1', 3, 'Cafe', 'asdf')
+    restaurant113: Restaurant = Restaurant(113, (0, 0), 'cafe1', 1, 'Cafe', 'asdf')
+    restaurant114: Restaurant = Restaurant(114, (0, 0), 'cafe1', 1, 'Cafe', 'asdf')
+    restaurant115: Restaurant = Restaurant(115, (0, 0), 'cafe1', 4, 'Cafe', 'asdf')
+    restaurant116: Restaurant = Restaurant(116, (0, 0), 'cafe1', 4, 'Cafe', 'asdf')
 
     restaurants: list[Restaurant] = [
         restaurant1, restaurant2, restaurant3, restaurant4, restaurant5, restaurant6,
         restaurant11, restaurant12, restaurant13, restaurant14, restaurant15, restaurant16,
         restaurant111, restaurant112, restaurant113, restaurant114, restaurant115, restaurant116
     ]
-    person1: Person = Person(0, (0, 0), [('dinner', 3), ('drinks', 2), ('cafe', 2)], restaurants)
+    person1: Person = Person(0, (0, 0), [('Dinner', 3), ('Drinks', 2), ('Cafe', 2)], restaurants)
 
     # filtered restaurent data ids:
     #   dinner: 1, 2, 3, 5
     #   drinks: 11, 12, 14, 16
     #   cafe: 111, 113, 114
     test_network: Network = generate_new_network(person1)
-    routes: list[tuple[list[Node], float]] = test_network.paths_recommandation(person1)
+    routes: list[tuple[list[Node], float]] = test_network.paths_recommandations(person1)
 
     print(len(routes))
     print(len(routes) == 48)
@@ -111,8 +111,8 @@ def generate_new_network_test() -> None:
 
 
 if __name__ == "__main__":
-    restaurant_data: list[Restaurant] = load_restuarant_data(...)
-    person: Person = Person(0, ..., )      # idk how exactly the list of perference will be inputted
-    network: Network = generate_new_network(person)
+    # restaurant_data: list[Restaurant] = load_restuarant_data(...)
+    # person: Person = Person(0, ..., )      # idk how exactly the list of perference will be inputted
+    # network: Network = generate_new_network(person)
 
-    # generate_new_network_test()
+    generate_new_network_test()

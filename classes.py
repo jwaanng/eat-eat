@@ -68,9 +68,12 @@ class Restaurant(Node):
     - address: The street address of this restaurant.
 
     Representation Invariants:
+    - self.name != ''
+    - 0 < self.price < 5
     - self.r_type in ("Drinks", "Cafe", "Dessert", "Fast Food", "Dinner")
-    - ...   # TODO
+    - self.address != ''
     """
+
     name: str
     price: int
     r_type: str  # r short for restaurant
@@ -78,7 +81,7 @@ class Restaurant(Node):
 
     def __init__(self, identifier: int, coordinates: tuple[float, float],
                  name: str, price: int, restaurant_type: str, address: str) -> None:
-        """Initialize this restaurant with the given arguments."""
+        """Initialize the restaurant with the given arguments."""
 
         super().__init__(identifier, coordinates)
 
@@ -90,8 +93,7 @@ class Restaurant(Node):
     def __repr__(self) -> str:
         """Return a string representing this restaurant"""
 
-        # return f"Restaurant: {self.name}, price: {'$' * self.price}, type: {self.r_type}, address: {self.address}"
-        return f"Restaurant: {self.identifier}"     # TODO this is simplified str representation for testing purpose
+        return f"Restaurant: {self.name}, price: {'$' * self.price}, type: {self.r_type}, address: {self.address}"
 
 
 @check_contracts
@@ -99,8 +101,12 @@ class Person(Node):
     """ A child class of Node, representing one user
 
     Instance Attributes:
-        - route_plan: It represents person's
-        - preferences: ... # TODO
+        - route_plan: The order of restaurants types and the corresponding maximum price range
+                      that the person is planning to visit.
+        - preferences: The dictionary mapping where the key is a tuple of restaurant's type and
+                       the maximum price range for that restaurant, and the key is the corresponding restaurants that
+                       satisfies the key.
+        - _possible_options: All possible restaurants for the person can visit
     """
 
     route_plan: list[tuple[Union[str, None], int]]            # [(restaurant type, price range)]
@@ -109,6 +115,8 @@ class Person(Node):
 
     def __init__(self, identifier: int, coordinates: tuple[float, float],
                  route_plan: list[tuple[str, int]], restaurant_data: list[Restaurant]) -> None:
+        """Initialize the person with the given arguments."""
+
         super().__init__(identifier, coordinates)
 
         self.route_plan = route_plan.copy()
@@ -122,7 +130,9 @@ class Person(Node):
         self.preference = self._update_preferences(new_route_plan)
 
     def _update_preferences(self, new_route_plan: list[tuple[str, int]]) -> dict[tuple[str, int], list[Restaurant]]:
-        """Update the person's preferences"""
+        """Private helper method for updating the person's preferences with the
+        filtered restaurents based on the given route plan.
+        """
 
         new_preference: dict[tuple[str, int], list[Restaurant]] = {}
 
@@ -195,7 +205,7 @@ class Network:
 
         return (x_dist + y_dist) ** 0.5
 
-    def paths_recommandation(self, user: Person) -> list[tuple[list[Node], float]]:
+    def paths_recommandations(self, user: Person) -> list[tuple[list[Node], float]]:
         """Return a sorted list of all possible paths in this network which satifies the person's prefernce by
         ascending distance order"""
 
