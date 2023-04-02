@@ -1,3 +1,6 @@
+"""TODO"""
+
+
 from tkinter import *
 from PIL import Image, ImageTk
 from python_ta.contracts import check_contracts
@@ -5,7 +8,7 @@ from python_ta.contracts import check_contracts
 
 
 @check_contracts
-class FormWindow():
+class FormWindow:
     """A class of representing the Tkinter window for the user info form.
     """
 
@@ -30,7 +33,7 @@ class FormWindow():
         print(selections)
         return selections
 
-    def places_select(self, num_places) :
+    def places_select(self, num_places):
         """This function takes in the input number of places and returns that number of radio selections"""
 
         # main_frame = Frame(self.window)
@@ -49,7 +52,7 @@ class FormWindow():
 
         # canvas.create_window((0,0), window=second_frame, anchor="nw")
         # my failed scrollbar T-T
-                             
+
         options = ['Cafe', 'Dessert', 'Dinner', 'Drinks',
                    'Fast Food', 'Lunch', 'Doesn\'t Matter']
         budget_options = ['$', '$$', '$$$', '$$$$']
@@ -71,8 +74,11 @@ class FormWindow():
             label.pack()
 
             for option in options:
-                button = Radiobutton(radio_frame, text=option, variable=selected_place, value=option, font=(
-                    "Didact Gothic", 10), bg="#f2f2f2", activebackground="#f2f2f2", fg="#26547c", activeforeground="#26547c")
+                button = Radiobutton(radio_frame,
+                                     text=option, variable=selected_place, value=option,
+                                     font=("Didact Gothic", 10), bg="#f2f2f2",
+                                     activebackground="#f2f2f2", fg="#26547c", activeforeground="#26547c")
+
                 button.pack(side=LEFT, padx=10)
             radio_frame.pack()
 
@@ -86,26 +92,28 @@ class FormWindow():
             label.pack()
 
             for budget in budget_options:
-                button = Radiobutton(radio_frame, text=budget, variable=selected_budget, value=budget, font=(
-                    "Didact Gothic", 10), bg="#f2f2f2", activebackground="#f2f2f2", fg="#26547c", activeforeground="#26547c")
+                button = Radiobutton(radio_frame,
+                                     text=budget, variable=selected_budget, value=budget, font=("Didact Gothic", 10),
+                                     bg="#f2f2f2", activebackground="#f2f2f2", fg="#26547c", activeforeground="#26547c")
                 button.pack(side=LEFT, padx=10)
             radio_frame.pack()
 
             selected_budgets.append(selected_budget)
 
-        button = Button(self.window, text="Submit selections", command=lambda: self.get_selections(selected_places=selected_places, 
-        selected_budgets=selected_budgets), font=("Didact Gothic", 10), bg="#26547c", fg="#ffffff", padx=5, pady=5, 
-        activebackground="#f2f2f2", activeforeground="#26547c")
+        button = Button(self.window, text="Submit selections",
+                        command=lambda: self.get_selections(selected_places, selected_budgets),
+                        font=("Didact Gothic", 10), bg="#26547c", fg="#ffffff", padx=5, pady=5,
+                        activebackground="#f2f2f2", activeforeground="#26547c")
         button.pack()
 
-
-    def submit_slider(self, num_places):
+    def submit_slider(self, num_places) -> None:
         """A function that lets user only submit the slider once."""
         if not self.slider_submitted:  # check if slider has been submitted before
             self.slider_submitted = True
             self.places_select(num_places)
 
-    def create_new_window(self):
+    def create_new_window(self) -> None:
+        """TODO"""
         num_places = IntVar()
         self.slider_submitted = False  # initialize the attribute
 
@@ -117,11 +125,13 @@ class FormWindow():
         slider_frame.pack()
 
         slider = Scale(slider_frame, from_=1, to=4, variable=num_places, orient=HORIZONTAL, length=300, width=20,
-                       sliderlength=20, highlightthickness=0, bg="#f2f2f2", activebackground="#26547c", troughcolor="#d9d9d9")
+                       sliderlength=20, highlightthickness=0, bg="#f2f2f2",
+                       activebackground="#26547c", troughcolor="#d9d9d9")
         slider.pack()
 
         submit_button = Button(self.window, text="Submit", font=("Didact Gothic", 10), bg="#26547c", fg="#ffffff",
-                               padx=5, pady=5, activebackground="#f2f2f2", activeforeground="#26547c", command=lambda: self.submit_slider(int(num_places.get())))
+                               padx=5, pady=5, activebackground="#f2f2f2", activeforeground="#26547c",
+                               command=lambda: self.submit_slider(int(num_places.get())))
         submit_button.pack()
 
     def go_to_map_page(self) -> None:
@@ -131,5 +141,6 @@ class FormWindow():
         ...
 
     def run(self):
+        """TODO"""
         # Run the main loop
         self.window.mainloop()

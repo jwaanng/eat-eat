@@ -4,6 +4,7 @@ import formpage
 
 
 class HomePage:
+    """TODO"""
     def __init__(self):
         # Create the main window
         self.window = Tk()
@@ -39,14 +40,15 @@ class HomePage:
 
         # Create a label for the additional text
         self.back_label = Label(self.window, text="We've got your back",
-                                font=("Didact Gothic", 25), fg="#26547c", highlightthickness=0, padx=0, pady=0, borderwidth=0)
+                                font=("Didact Gothic", 25), fg="#26547c", highlightthickness=0,
+                                padx=0, pady=0, borderwidth=0)
         self.back_label.pack(side=RIGHT, padx=50, pady=0)
         self.back_label.place(x=700, y=300)
         self.back_label.lift()
 
         # Create a button for the "Try Now" action
-        self.try_button = Button(self.window, text="Try Now", font=("Didact Gothic", "10", "bold"), bg="white", fg="black",
-                                 bd=0, cursor="hand2", width=15, height=3, )
+        self.try_button = Button(self.window, text="Try Now", font=("Didact Gothic", "10", "bold"),
+                                 bg="white", fg="black", bd=0, cursor="hand2", width=15, height=3)
         self.try_button.pack(side=RIGHT, padx=50, pady=10)
         self.try_button.place(x=700, y=350)
         self.try_button.lift()
@@ -63,6 +65,7 @@ class HomePage:
         form.run()
 
     def run(self):
+        """TODO"""
         # Run the main loop
         self.window.mainloop()
 

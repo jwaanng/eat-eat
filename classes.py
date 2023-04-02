@@ -148,7 +148,7 @@ class Network:
     """A class that represents the network.
 
     Instance Attributes:
-        - _nodes: The collection of the existing nodes in the network, where the key is the node's unique
+        - _nodes: The collection of the nodes existing in the network, where the key is the node's unique
                   identifier and the value is the corresponding node
 
     Representation Invariants:
