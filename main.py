@@ -34,20 +34,19 @@ def generate_new_network(user: Person) -> Network:
     """Generate the network based on the person's prefernce"""
     new_network: Network = Network()
 
-    _generate_new_network(new_network, user, user, 0, len(user.route_plan))
+    _connect_nodes(new_network=new_network, node=user, user=user, i=0, d=len(user.route_plan))
 
     return new_network
 
 
-def _generate_new_network(new_network: Network,
-                          node: Union[Restaurant, Person], user: Person, i: int, d: int) -> None:
-    """Generate the network using recursion"""
+def _connect_nodes(new_network: Network, node: Union[Restaurant, Person], user: Person, i: int, d: int) -> None:
+    """Private helper function for connecting the nodes and generate the network."""
 
     for neighbour in user.preference[user.route_plan[i]]:
         new_network.add_edge(node, neighbour)
 
         if i + 1 < d:
-            _generate_new_network(new_network, neighbour, user, i + 1, d)
+            _connect_nodes(new_network, neighbour, user, i + 1, d)
 
 
 def update_user_preference(user: Person, new_preference: list[tuple[str, int]]) -> Network:

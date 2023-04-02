@@ -93,7 +93,8 @@ class Restaurant(Node):
     def __repr__(self) -> str:
         """Return a string representing this restaurant"""
 
-        return f"Restaurant: {self.name}, price: {'$' * self.price}, type: {self.r_type}, address: {self.address}"
+        return f"Restaurant: {self.name}, coordinates: {self.coordinates}, " \
+               f"price: {'$' * self.price}, type: {self.r_type}, address: {self.address}"
 
 
 @check_contracts
@@ -110,8 +111,8 @@ class Person(Node):
     """
 
     route_plan: list[tuple[Union[str, None], int]]            # [(restaurant type, price range)]
-    preference: dict[tuple[str, int], list[Restaurant]]       # {restaurant type: corresponding possible restaurants}
-    _possible_options: list[Restaurant]                       # [All possible restaurants]
+    preference: dict[tuple[str, int], list[Restaurant]]       # {restaurant type: corresponding POSSIBLE restaurants}
+    _possible_options: list[Restaurant]                       # [ALL possible restaurants]
 
     def __init__(self, identifier: int, coordinates: tuple[float, float],
                  route_plan: list[tuple[str, int]], restaurant_data: list[Restaurant]) -> None:
@@ -170,8 +171,8 @@ class Network:
         self._nodes[node.identifier] = node
 
     def add_edge(self, node1: Union[Restaurant, Person], node2: Union[Restaurant, Person]) -> None:
-        """Connect the edge that leads node1 to node2.
-        Note that the edge is not a bi-direction.
+        """Connect the edge that leads node1 to node2. Note that the edge has a direction.
+         However, it's still possible to establish the non-direction relationship..
 
         Preconditions:
             - node2 not in self._nodes[node1].neighbors
@@ -186,17 +187,6 @@ class Network:
 
             self._nodes[node1.identifier].neighbours[node2.identifier] = self._nodes[node2.identifier]
 
-    def _find_all_routes(self, user: Person) -> list[list[Node]]:
-        """Return a list of all possible paths in this network which satifies the person's prefernce"""
-
-        routes: list[list[Node]] = []
-        route_length = len(user.route_plan) - 1
-
-        for neighbour in user.neighbours.values():
-            routes.extend(neighbour.find_all_routes(route_length, set()))
-
-        return routes
-
     def get_distance(self, departure: Node, destination: Node) -> float:
         """Returns the straight distance between the departure and destination location"""
 
@@ -206,7 +196,7 @@ class Network:
         return (x_dist + y_dist) ** 0.5
 
     def paths_recommandations(self, user: Person) -> list[tuple[list[Node], float]]:
-        """Return a sorted list of all possible paths in this network which satifies the person's prefernce by
+        """Return a sorted list of all possible routes in this network which satifies the person's prefernce by
         ascending distance order"""
 
         routes: list[tuple[list[Node], float]] = []
@@ -215,5 +205,16 @@ class Network:
             routes.append((route, sum(self.get_distance(route[i], route[i + 1]) for i in range(len(route) - 1))))
 
         routes.sort(key=lambda x: x[1])
+
+        return routes
+
+    def _find_all_routes(self, user: Person) -> list[list[Node]]:
+        """Return a list of all possible paths in this network which satifies the person's prefernce"""
+
+        routes: list[list[Node]] = []
+        route_length = len(user.route_plan) - 1
+
+        for neighbour in user.neighbours.values():
+            routes.extend(neighbour.find_all_routes(route_length, set()))
 
         return routes
