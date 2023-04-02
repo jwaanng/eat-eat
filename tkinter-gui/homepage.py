@@ -35,7 +35,7 @@ class HomePage:
                                 font=("Didact Gothic", 45), fg="black",
                                 highlightbackground="black", highlightthickness=0)
         self.eat_label2.pack(side=RIGHT, padx=0, pady=0)
-        self.eat_label2.place(x=700, y=210)
+        self.eat_label2.place(x=700, y=230)
 
         # Create a label for the additional text
         self.back_label = Label(self.window, text="We've got your back",

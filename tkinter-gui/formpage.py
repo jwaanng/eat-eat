@@ -1,15 +1,12 @@
 from tkinter import *
 from PIL import Image, ImageTk
 from python_ta.contracts import check_contracts
+# import mappage
 
 
 @check_contracts
 class FormWindow():
-    """A class of representing the Tkinter window
-
-    Instance Attributes:
-    - title: title of the window
-
+    """A class of representing the Tkinter window for the user info form.
     """
 
     def __init__(self):
@@ -30,10 +27,29 @@ class FormWindow():
         selections = [(str(selected_places[i]), str(selected_budgets[i]))
                       for i in range(len(selected_places))]
 
+        print(selections)
         return selections
 
-    def places_select(self, num_places) -> None:
+    def places_select(self, num_places) :
         """This function takes in the input number of places and returns that number of radio selections"""
+
+        # main_frame = Frame(self.window)
+        # main_frame.pack(fill=BOTH, expand=1)
+
+        # canvas = Canvas(main_frame)
+        # canvas.pack(side=LEFT, fill=BOTH, expand=1)
+
+        # scrollbar = ttk.Scrollbar(main_frame, orient=VERTICAL, command=canvas.yview)
+        # scrollbar.pack(side=RIGHT, fill=Y)
+
+        # canvas.configure(yscrollcommand=scrollbar.set)
+        # canvas.bind('<Configure>', lambda event: canvas.configure(scrollregion = canvas.bbox("all")))
+
+        # second_frame = Frame(canvas)
+
+        # canvas.create_window((0,0), window=second_frame, anchor="nw")
+        # my failed scrollbar T-T
+                             
         options = ['Cafe', 'Dessert', 'Dinner', 'Drinks',
                    'Fast Food', 'Lunch', 'Doesn\'t Matter']
         budget_options = ['$', '$$', '$$$', '$$$$']
@@ -48,38 +64,40 @@ class FormWindow():
             selected_budget = StringVar()
 
             # Radio Frame for type of place
-            radio_frame = Frame(self.window, bg="#f2f2f2", padx=20, pady=20)
+            radio_frame = Frame(self.window, bg="#f2f2f2", padx=20, pady=10)
             group_label = "Place Number" + str(i+1) + ":"
             label = Label(radio_frame, text=group_label, font=(
-                "Didact Gothic", 15), bg="#f2f2f2", fg="#26547c")
+                "Didact Gothic", 10), bg="#f2f2f2", fg="#26547c")
             label.pack()
 
             for option in options:
                 button = Radiobutton(radio_frame, text=option, variable=selected_place, value=option, font=(
-                    "Didact Gothic", 15), bg="#f2f2f2", activebackground="#f2f2f2", fg="#26547c", activeforeground="#26547c")
-                button.pack(side=LEFT, padx=20)
+                    "Didact Gothic", 10), bg="#f2f2f2", activebackground="#f2f2f2", fg="#26547c", activeforeground="#26547c")
+                button.pack(side=LEFT, padx=10)
             radio_frame.pack()
 
             selected_places.append(selected_place)
 
             # Radio Frame for budget
-            radio_frame = Frame(self.window, bg="#f2f2f2", padx=20, pady=20)
+            radio_frame = Frame(self.window, bg="#f2f2f2", padx=20, pady=10)
             group_label = "Budget for place:" + str(i+1) + ":"
             label = Label(radio_frame, text=group_label, font=(
-                "Didact Gothic", 15), bg="#f2f2f2", fg="#26547c")
+                "Didact Gothic", 10), bg="#f2f2f2", fg="#26547c")
             label.pack()
 
             for budget in budget_options:
                 button = Radiobutton(radio_frame, text=budget, variable=selected_budget, value=budget, font=(
-                    "Didact Gothic", 15), bg="#f2f2f2", activebackground="#f2f2f2", fg="#26547c", activeforeground="#26547c")
-                button.pack(side=LEFT, padx=20)
+                    "Didact Gothic", 10), bg="#f2f2f2", activebackground="#f2f2f2", fg="#26547c", activeforeground="#26547c")
+                button.pack(side=LEFT, padx=10)
             radio_frame.pack()
 
             selected_budgets.append(selected_budget)
 
-        button = Button(self.window, text="Submit selections", command=lambda: self.get_selections(selected_places=selected_places, selected_budgets=selected_budgets), font=(
-            "Didact Gothic", 10), bg="#26547c", fg="#ffffff", padx=5, pady=5, activebackground="#f2f2f2", activeforeground="#26547c")
+        button = Button(self.window, text="Submit selections", command=lambda: self.get_selections(selected_places=selected_places, 
+        selected_budgets=selected_budgets), font=("Didact Gothic", 10), bg="#26547c", fg="#ffffff", padx=5, pady=5, 
+        activebackground="#f2f2f2", activeforeground="#26547c")
         button.pack()
+
 
     def submit_slider(self, num_places):
         """A function that lets user only submit the slider once."""
@@ -98,7 +116,7 @@ class FormWindow():
         slider_frame = Frame(self.window, bg="#f2f2f2", padx=20, pady=20)
         slider_frame.pack()
 
-        slider = Scale(slider_frame, from_=1, to=10, variable=num_places, orient=HORIZONTAL, length=300, width=20,
+        slider = Scale(slider_frame, from_=1, to=4, variable=num_places, orient=HORIZONTAL, length=300, width=20,
                        sliderlength=20, highlightthickness=0, bg="#f2f2f2", activebackground="#26547c", troughcolor="#d9d9d9")
         slider.pack()
 
