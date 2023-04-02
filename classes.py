@@ -36,7 +36,7 @@ class Node:
     def find_all_routes(self, path_length: int, visited: set[Node]) -> list[list[Node]]:
         """Return all possible routes that matches user route plan preference"""
 
-        if len(visited) == path_length - 1:
+        if len(visited) == path_length:
             return [[self]]
 
         routes: list[list[Node]] = []
@@ -190,7 +190,7 @@ class Network:
         """Return a list of all possible paths in this network which satifies the person's prefernce"""
 
         routes: list[list[Node]] = []
-        route_length = len(user.route_plan)
+        route_length = len(user.route_plan) - 1
 
         for neighbour in user.neighbours.values():
             routes.extend(neighbour.find_all_routes(route_length, set()))
