@@ -119,3 +119,9 @@ if __name__ == '__main__':
                                                       pass_coords=True)
 
     test.mainloop()
+    
+    python_ta.check_all(config={
+    'extra-imports': ['tkinter', 'tkintermapview', 'typing', 'Classes_and_Functions'],  # the names (strs) of imported modules
+    'allowed-io': ['print'],     # the names (strs) of functions that call print/open/input
+    'max-line-length': 120
+})
