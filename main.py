@@ -4,6 +4,7 @@ from formpage import *
 from homepage import *
 from mapview import *
 from classes import *
+from getlocation import *
 
 import csv
 
@@ -103,14 +104,27 @@ def generate_new_network_test() -> None:
 
 
 if __name__ == "__main__":
-    home_page = HomePage()
-    home_page.run()
+    homepage = HomePage()
+    homepage.run()
 
     restaurant_data: list[Restaurant] = load_restuarant_data('./Data/Restaurants.csv')
-    person: Person = Person(identifier=0, coordinate=home_page.form_page.coordinates,
-                            route_plan=home_page.form_page.selections, restaurant_data=restaurant_data)
+    person: Person = Person(identifier=0, coordinate=homepage.form_page.coordinates,
+                            route_plan=homepage.form_page.selections, restaurant_data=restaurant_data)
     network: Network = generate_new_network(person)
-    recommanded_paths: list[tuple[list[Node], float]] = network.paths_recommandations(person)[:5]
+    recommanded_paths = network.paths_recommandations(person)
+
+    # if len(recommanded_paths) > 5:
+    #     recommanded_paths = recommanded_paths[:5]
+
+    # distances: list[float] = [route[1] for route in recommanded_paths]
+    # recommanded_routes: list[list[Node]] = [route[0] for route in recommanded_paths]
+
+    result_page = LocationPage()
+    result_page.create_new_window(recommanded_paths)
+    result_page.run()
+
     print(recommanded_paths)
+
+
 
     # generate_new_network_test()
