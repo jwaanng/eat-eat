@@ -56,53 +56,6 @@ def update_user_preference(user: Person, new_preference: list[tuple[str, int]]) 
     return generate_new_network(user)
 
 
-def generate_new_network_test() -> None:
-    """test generate network"""
-    # dinner
-    restaurant1: Restaurant = Restaurant(1, (123.0, 31.0), 'dinner1', 3, 'Dinner', 'asdf')
-    restaurant2: Restaurant = Restaurant(2, (546.0, 413.0), 'dinner2', 1, 'Dinner', 'asdf')
-    restaurant3: Restaurant = Restaurant(3, (35.0, 2.0), 'dinner3', 2, 'Dinner', 'asdf')
-    restaurant4: Restaurant = Restaurant(4, (54.0, 123.0), 'dinner4', 4, 'Dinner', 'asdf')
-    restaurant5: Restaurant = Restaurant(5, (531.0, 647.0), 'dinner5', 3, 'Dinner', 'asdf')
-    restaurant6: Restaurant = Restaurant(6, (15.0, 375.0), 'dinner6', 4, 'Dinner', 'asdf')
-
-    # drinks
-    restaurant11: Restaurant = Restaurant(11, (151.0, 245.0), 'drink1', 2, 'Drinks', 'asdf')
-    restaurant12: Restaurant = Restaurant(12, (23.0, 234.0), 'drink2', 1, 'Drinks', 'asdf')
-    restaurant13: Restaurant = Restaurant(13, (14.0, 246.0), 'drink3', 3, 'Drinks', 'asdf')
-    restaurant14: Restaurant = Restaurant(14, (432.0, 736.0), 'drink4', 2, 'Drinks', 'asdf')
-    restaurant15: Restaurant = Restaurant(15, (56.0, 23.0), 'drink5', 4, 'Drinks', 'asdf')
-    restaurant16: Restaurant = Restaurant(16, (1245.0, 54.0), 'drink6', 2, 'Drinks', 'asdf')
-
-    # cafe
-    restaurant111: Restaurant = Restaurant(111, (75.0, 142.0), 'cafe1', 2, 'Cafe', 'asdf')
-    restaurant112: Restaurant = Restaurant(112, (765.0, 153.0), 'cafe1', 3, 'Cafe', 'asdf')
-    restaurant113: Restaurant = Restaurant(113, (354.0, 634.0), 'cafe1', 1, 'Cafe', 'asdf')
-    restaurant114: Restaurant = Restaurant(114, (643.0, 643.0), 'cafe1', 1, 'Cafe', 'asdf')
-    restaurant115: Restaurant = Restaurant(115, (153.0, 124.2), 'cafe1', 4, 'Cafe', 'asdf')
-    restaurant116: Restaurant = Restaurant(116, (235.6, 546.23), 'cafe1', 4, 'Cafe', 'asdf')
-
-    restaurants: list[Restaurant] = [
-        restaurant1, restaurant2, restaurant3, restaurant4, restaurant5, restaurant6,
-        restaurant11, restaurant12, restaurant13, restaurant14, restaurant15, restaurant16,
-        restaurant111, restaurant112, restaurant113, restaurant114, restaurant115, restaurant116
-    ]
-    person1: Person = Person(0, (123, 324), [('Dinner', 3), ('Drinks', 2), ('Cafe', 2)], restaurants)
-
-    # filtered restaurent data ids:
-    #   dinner: 1, 2, 3, 5
-    #   drinks: 11, 12, 14, 16
-    #   cafe: 111, 113, 114
-    test_network: Network = generate_new_network(person1)
-    routes: list[tuple[list[Node], float]] = test_network.paths_recommandations(person1)
-
-    print(len(routes))
-    print(len(routes) == 48)
-
-    for route in routes:
-        print(route)
-
-
 if __name__ == "__main__":
     homepage = HomePage()
     homepage.run()
@@ -111,20 +64,8 @@ if __name__ == "__main__":
     person: Person = Person(identifier=0, coordinate=homepage.form_page.coordinates,
                             route_plan=homepage.form_page.selections, restaurant_data=restaurant_data)
     network: Network = generate_new_network(person)
-    recommanded_paths = network.paths_recommandations(person)
-
-    # if len(recommanded_paths) > 5:
-    #     recommanded_paths = recommanded_paths[:5]
-
-    # distances: list[float] = [route[1] for route in recommanded_paths]
-    # recommanded_routes: list[list[Node]] = [route[0] for route in recommanded_paths]
+    recommanded_path = network.paths_recommandation(person)
 
     result_page = LocationPage()
-    result_page.create_new_window(recommanded_paths)
+    result_page.create_new_window(recommanded_path)
     result_page.run()
-
-    print(recommanded_paths)
-
-
-
-    # generate_new_network_test()

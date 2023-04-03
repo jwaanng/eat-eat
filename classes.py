@@ -202,9 +202,9 @@ class Network:
 
         return (x_dist + y_dist) ** 0.5
 
-    def paths_recommandations(self, user: Person) -> list[Node]:  # list[tuple[list[Node], float]]:
-        """Return a sorted list of all possible routes in this network which satifies the person's prefernce by
-        ascending distance order"""
+    def paths_recommandation(self, user: Person) -> list[Node]:
+        """Return the shortest route from all possible routes in this network which satifies the person's
+        prefernce by ascending distance order"""
 
         routes: list[tuple[list[Node], float]] = []
 

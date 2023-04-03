@@ -15,7 +15,7 @@ def create_user_location_select_map(labelframe: tkinter.LabelFrame, width: int, 
     return map_widget
 
 
-def create_map_widget(labelframe: tkinter.LabelFrame, list_of_restaurant_paths: list[list[Node]],
+def create_map_widget(labelframe: tkinter.LabelFrame, list_of_restaurant_paths: list[Node],
                       width: int, height: int) -> tkmap.TkinterMapView:
     """Create a map widget given a list of restaurant paths showing markers for each restaurant and the paths
     between each restaurant.
@@ -64,12 +64,6 @@ if __name__ == '__main__':
     button = tkinter.Button(test, width=15, text='Confirm Selection', command=confirm_selection)
     button.pack()
 
-    # example_restaurant_paths = [[Restaurant(identifier=1, coordinate=(43.6684, -79.38924),
-    #                                         name='Deli Shop', price=1, r_type='Fast Food', address='Toronto'),
-    #                              Restaurant(identifier=1, coordinate=(43.670420, -79.386450),
-    #                                         name='Starbucks', price=1, r_type='Cafe', address='Toronto')]]
-    #
-    # map_widget_example = create_map_widget(labelframe_test, example_restaurant_paths, 800, 600)
     map_widget_example_2 = create_user_location_select_map(labelframe_test, 800, 600)
 
     def add_marker_event(coords):
