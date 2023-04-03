@@ -103,18 +103,14 @@ def generate_new_network_test() -> None:
 
 
 if __name__ == "__main__":
-    homepage = HomePage()
-    homepage.run()
+    home_page = HomePage()
+    home_page.run()
 
     restaurant_data: list[Restaurant] = load_restuarant_data('./Data/Restaurants.csv')
-    person: Person = Person(identifier=0, coordinate=homepage.form_page.coordinates,
-                            route_plan=homepage.form_page.selections, restaurant_data=restaurant_data)
+    person: Person = Person(identifier=0, coordinate=home_page.form_page.coordinates,
+                            route_plan=home_page.form_page.selections, restaurant_data=restaurant_data)
     network: Network = generate_new_network(person)
-    recommanded_paths: list[tuple[list[Node], float]] = network.paths_recommandations(person)
-
-    if len(recommanded_paths) > 5:
-        recommanded_paths = recommanded_paths[:5]
-
-
+    recommanded_paths: list[tuple[list[Node], float]] = network.paths_recommandations(person)[:5]
+    print(recommanded_paths)
 
     # generate_new_network_test()

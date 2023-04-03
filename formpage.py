@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
 import mapview as tkmap
-from typing import Union
 
 
 class Form:
@@ -13,7 +12,7 @@ class Form:
     - selections: list of user suggestions
     """
     slider_submitted: bool
-    main_frame: Union[None, tk.Frame]
+    main_frame: None
     selections: list[tuple[str, str]]
     coordinates: tuple[float, float]
 
