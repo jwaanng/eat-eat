@@ -74,7 +74,7 @@ class HomePage:
         form.run()
 
     def run(self):
-        """TODO"""
+        """Runs the tkinker GUI window for the user input"""
         # Run the main loop
         self.window.mainloop()
 
