@@ -284,3 +284,8 @@ def update_user_preference(user: Person, new_preference: list[tuple[str, int]]) 
 
 if __name__ == "__main__":
     import python_ta
+    python_ta.check_all(config={
+    'extra-imports': ['__future__', 'typing'],  # the names (strs) of imported modules
+    'allowed-io': [],     # the names (strs) of functions that call print/open/input
+    'max-line-length': 120
+})
