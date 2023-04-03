@@ -1,9 +1,9 @@
 """main"""
 
-from tkinterGUI.mapview import *
 from tkinterGUI.formpage import *
 from tkinterGUI.homepage import *
 from tkinterGUI.mappage import *
+from tkinterGUI.mapview import *
 from classes import *
 
 import csv
@@ -20,14 +20,8 @@ def load_restuarant_data(file: str) -> list[Restaurant]:
         i = 1
 
         for row in reader:
-            restuarant_node = Restaurant(
-                identifier=i,
-                coordinates=(float(row[2]), float(row[3])),
-                name=row[0],
-                price=int(row[4]),
-                r_type=row[5],
-                address=row[1]
-            )
+            restuarant_node = Restaurant(identifier=i, coordinate=(float(row[2]), float(row[3])), name=row[0],
+                                         price=int(row[4]), r_type=row[5], address=row[1])
 
             list_of_restuarants.append(restuarant_node)
             i += 1
@@ -100,7 +94,7 @@ def generate_new_network_test() -> None:
     #   drinks: 11, 12, 14, 16
     #   cafe: 111, 113, 114
     test_network: Network = generate_new_network(person1)
-    routes: list[list[Node], float] = test_network.paths_recommandations(person1)
+    routes: list[tuple[list[Node], float]] = test_network.paths_recommandations(person1)
 
     print(len(routes))
     print(len(routes) == 48)
@@ -111,7 +105,7 @@ def generate_new_network_test() -> None:
 
 if __name__ == "__main__":
     restaurant_data: list[Restaurant] = load_restuarant_data('./Data/Restaurants.csv')
-    person: Person = Person(0, ..., )
+    person: Person = Person(identifier=0, coordinate=..., route_plan=..., restaurant_data=restaurant_data)
     network: Network = generate_new_network(person)
 
     # generate_new_network_test()
