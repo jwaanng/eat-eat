@@ -2,7 +2,8 @@
 
 import tkinter as tk
 import tkintermapview as tkmap
-from Classes_and_Functions import Node
+from typing import Union
+from Classes_and_Functions import Restaurant, Person
 
 
 class LocationPage:
@@ -43,7 +44,8 @@ def create_user_location_select_map(labelframe: tk.LabelFrame, width: int, heigh
     return map_widget
 
 
-def create_map_widget(labelframe: tk.LabelFrame, list_of_restaurant_routes: list[list[Node]],
+def create_map_widget(labelframe: tk.LabelFrame,
+                      list_of_restaurant_routes: tuple[list[Union[Person, Restaurant]], float],
                       width: int, height: int) -> tkmap.TkinterMapView:
     """Create a map widget given a list of restaurant paths showing markers for each restaurant and the paths
     between each restaurant.
@@ -58,14 +60,14 @@ def create_map_widget(labelframe: tk.LabelFrame, list_of_restaurant_routes: list
     map_widget.set_position(deg_x=43.6658971, deg_y=-79.3906104)
     map_widget.set_zoom(15)
 
-    for route in list_of_restaurant_routes:
+    for route, distance in list_of_restaurant_routes:
         list_of_restaurant_positions = []
 
-        for node in route:
+        for restaurant in route:
             marker = map_widget.set_marker(
-                    deg_x=node.coordinate[0],
-                    deg_y=node.coordinate[1],
-                    text=node.name
+                    deg_x=restaurant.coordinate[0],
+                    deg_y=restaurant.coordinate[1],
+                    text=restaurant.name
                 )
             list_of_restaurant_positions.append(marker.position)
 
