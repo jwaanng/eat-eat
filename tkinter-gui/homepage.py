@@ -9,7 +9,7 @@ class HomePage:
     Instance Attributes:
     - form_page: representing the form object related to this homepage
     """
-    form_page = None or formpage.Form()
+    form_page = None
 
     def __init__(self):
         # Create the main window

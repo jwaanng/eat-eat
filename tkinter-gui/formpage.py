@@ -1,7 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
+import tkintermapview_gui
 
-
+# hi minseok
 class Form():
     """A class of representing the Tkinter window for the user info form.
 
@@ -43,6 +44,7 @@ class Form():
         return selections
 
     def places_select(self, num_places):
+        """Creates a widget that lets user select num_places amount of restaurants and """
         options = ['Cafe', 'Dessert', 'Dinner', 'Drinks',
                    'Fast Food', 'Lunch']
         budget_options = ['$', '$$', '$$$', '$$$$']
@@ -84,6 +86,9 @@ class Form():
                                   activebackground="#f2f2f2", activeforeground="#26547c")
         submit_button.grid(row=5, column=2)
 
+    def create_map(self):
+        ...
+
     def create_new_window(self):
         frame = tk.Frame(self.window)
         self.main_frame = frame
@@ -113,6 +118,6 @@ class Form():
         self.window.mainloop()
 
 
-hi = Form()
-hi.create_new_window()
-hi.run()
+# hi = Form()
+# hi.create_new_window()
+# hi.run()
