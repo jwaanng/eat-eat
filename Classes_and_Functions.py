@@ -219,7 +219,7 @@ class Network:
             - len(user.neighbours) > 0
         """
 
-        routes: list[tuple[list[Node], float]] = []
+        routes: list[tuple[list[Restaurant], float]] = []
 
         for route in user.find_all_routes(len(user.route_plan), set()):
             restaurants = [self._nodes[node.identifier] for node in route]
