@@ -1,8 +1,9 @@
+"""File for the user's input GUI window"""
+
 import tkinter as tk
 from tkinter import ttk
+from typing import Any, Union
 import Mapview as tkmap
-from typing import Union
-from typing import Any
 
 
 class Form:
@@ -17,6 +18,7 @@ class Form:
     main_frame: Union[tk.Frame, None]
     selections: Union[list[tuple[str, int]], None]
     coordinates: tuple[float, float]
+    window: tk
 
     def __init__(self) -> None:
         """Initialize the Form class"""
@@ -51,15 +53,14 @@ class Form:
             selections = [(str(selected_places[i]), len(selected_budgets[i]))
                           for i in range(len(selected_places))]
 
-            print(selections)
             self.selections = selections.copy()
 
             return selections
 
     def places_select(self, num_places: Any) -> None:
-        """Creates a widget that lets the user select their desired number of places to eat and their respective budgets."""
-        options = ['Cafe', 'Dessert', 'Dinner', 'Drinks',
-                   'Fast Food', 'Lunch']
+        """Creates a widget that lets the user select their desired number of
+        places to eat and their respective budgets."""
+        options = ['Cafe', 'Dessert', 'Dinner', 'Drinks', 'Fast Food', 'Lunch']
         budget_options = ['$', '$$', '$$$', '$$$$']
 
         selected_places = []
@@ -104,7 +105,8 @@ class Form:
         self.create_map()
 
     def create_map(self) -> None:
-        """Creates a new map for the purposes of letting the user select their location via right clicking and adding a marker."""
+        """Creates a new map for the purposes of letting the user select their location via
+        right clicking and adding a marker."""
         places_visit_frame = tk.LabelFrame(self.main_frame)
         places_visit_frame.grid(row=2, column=0)
 
@@ -113,7 +115,6 @@ class Form:
         def confirm_selection() -> None:
             """Checks when the button has been clicked and confirms the user position"""
             if user_position and self.selections:
-                print(user_position[0])
                 self.window.destroy()
 
         button = tk.Button(places_visit_frame, text="Submit selections",
@@ -163,12 +164,15 @@ class Form:
         submit_button.grid(row=1, column=1)
 
     def run(self) -> None:
+        """Runs the tkinter's GUI window"""
         self.window.mainloop()
 
 
 if __name__ == "__main__":
+    import python_ta
+
     python_ta.check_all(config={
-    'extra-imports': ['tkinter', 'Mapview', 'typing'],  # the names (strs) of imported modules
-    'allowed-io': ['get_selections'],     # the names (strs) of functions that call print/open/input
-    'max-line-length': 120
-})
+        'extra-imports': ['tkinter', 'Mapview', 'typing'],  # the names (strs) of imported modules
+        'allowed-io': ['get_selections'],  # the names (strs) of functions that call print/open/input
+        'max-line-length': 120
+    })
