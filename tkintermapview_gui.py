@@ -51,8 +51,15 @@ if __name__ == '__main__':
     test.title('Test')
     test.geometry('900x700')
 
+    user_position = []
+    
+    def confirm_selection():
+        print(user_position[0])
+
     labelframe_test = tkinter.LabelFrame(test)
     labelframe_test.pack(pady=20)
+    button = tkinter.Button(test, width=15, text='Confirm Selection', command=confirm_selection)
+    button.pack()
 
     # example_restaurant_paths = [[Restaurant(identifier=1, coordinates=(43.6684, -79.38924),
     #                                         name='Deli Shop', price=1, restaurant_type='Fast Food', address='Toronto'),
@@ -61,7 +68,6 @@ if __name__ == '__main__':
 
     # map_widget_example = create_map_widget(labelframe_test, example_restaurant_paths, 800, 600)
     map_widget_example_2 = create_user_location_select_map(labelframe_test, 800, 600)
-    user_position = []
 
     def add_marker_event(coords):
         map_widget_example_2.delete_all_marker()
