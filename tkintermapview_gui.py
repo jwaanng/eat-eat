@@ -52,9 +52,9 @@ if __name__ == '__main__':
     test.geometry('900x700')
 
     user_position = []
-    
+
     def confirm_selection():
-        if user_position != []:
+        if user_position:
             print(user_position[0])
         else:
             return
