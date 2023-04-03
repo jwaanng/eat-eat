@@ -1,4 +1,4 @@
-"""Necessary classes for the project"""
+"""Necessary classes for the backend operation for the CSC111 project"""
 
 from __future__ import annotations
 from typing import Union
@@ -10,27 +10,30 @@ class Node:
     """An abstract class that represents a location.
 
     Instance Attributes
-    - identifier:
-        The id is an integer value that uniquely identifies each node
-    - coordinate:
-        For the restaurant: A tuple representing longitutde and latitude of the restaurant's address
-        For the person: A tuple representing longitutde and latitude of the person's current location
-    - neighbors:
-        A mapping containing the neighbor nodes where the key is the unique neighbor id and
-        the value is the corresponding neighbor node.
+        - identifier:
+            The id is an integer value that uniquely identifies each node
+        - coordinate:
+            For the restaurant: A tuple representing longitutde and latitude of the restaurant's address
+            For the person: A tuple representing longitutde and latitude of the person's current location
+        - neighbors:
+            A mapping containing the neighbor nodes where the key is the unique neighbor id and
+            the value is the corresponding neighbor node.
 
      Representation Invariants:
-     - self.identifier not in self.neighbours
-     - all(neighbour == self.neighbour[neighbour].identifier for neighbour in self.neighbours)
+         - self.identifier not in self.neighbours
+         - self.name != ''
+         - all(neighbour == self.neighbour[neighbour].identifier for neighbour in self.neighbours)
     """
     identifier: int
+    name: str
     coordinate: tuple[float, float]
     neighbours: dict[int, Node]
 
-    def __init__(self, identifier: int, coordinate: tuple[float, float]) -> None:
+    def __init__(self, identifier: int, coordinate: tuple[float, float], name: str) -> None:
         """Initialize this node with the unique identifier and coordinate location"""
         self.identifier = identifier
         self.coordinate = coordinate
+        self.name = name
         self.neighbours = {}
 
     def find_all_routes(self, route_length: int, visited: set[Node]) -> list[list[Node]]:
@@ -54,6 +57,7 @@ class Node:
 
     def __repr__(self) -> str:
         """Return a string representing this node."""
+
         return f'Node({self.identifier})'
 
 
@@ -74,7 +78,6 @@ class Restaurant(Node):
         - self.address != ''
     """
 
-    name: str
     price: int
     r_type: str  # r short for restaurant
     address: str
@@ -83,9 +86,8 @@ class Restaurant(Node):
                  name: str, price: int, r_type: str, address: str) -> None:
         """Initialize the restaurant with the given arguments."""
 
-        super().__init__(identifier, coordinate)
+        super().__init__(identifier, coordinate, name)
 
-        self.name = name
         self.price = price
         self.r_type = r_type
         self.address = address
@@ -93,10 +95,8 @@ class Restaurant(Node):
     def __repr__(self) -> str:
         """Return a string representing this restaurant"""
 
-        # return f"Restaurant: {self.name}, coordinate: {self.coordinate}, " \
-        #        f"price: {'$' * self.price}, type: {self.r_type}, address: {self.address}"
-
-        return f'Restaurant: {self.name}'
+        return f"Restaurant: {self.name}, coordinate: {self.coordinate}, " \
+               f"price: {'$' * self.price}, type: {self.r_type}, address: {self.address}"
 
 
 @check_contracts
@@ -110,23 +110,26 @@ class Person(Node):
                        the maximum price range for that restaurant, and the key is the corresponding restaurants that
                        satisfies the key.
         - _possible_options: All possible restaurants for the person can visit
+
+    Representation Invariants:
+        - len(self.route_plan) > 0 and all(plan != () for plan in self.route_plan)
+        - len(self.preference) > 0 and len(self.preference.values()) > 0
+        - self._possible_options != []
     """
 
     route_plan: list[tuple[str, int]]                         # [(restaurant type, price range)]
     preference: dict[tuple[str, int], list[Restaurant]]       # {restaurant type: corresponding POSSIBLE restaurants}
     _possible_options: list[Restaurant]                       # [ALL possible restaurants]
-    name: str
 
     def __init__(self, identifier: int, coordinate: tuple[float, float],
                  route_plan: list[tuple[str, int]], restaurant_data: list[Restaurant]) -> None:
         """Initialize the person with the given arguments."""
 
-        super().__init__(identifier, coordinate)
+        super().__init__(identifier, coordinate, 'YOU')
 
         self.route_plan = route_plan.copy()
         self._possible_options = restaurant_data.copy()
         self.preference = self._update_preferences(route_plan)
-        self.name = 'YOU'
 
     def update_preferences(self, new_route_plan: list[tuple[str, int]]) -> None:
         """Update the person's preferences"""
@@ -160,7 +163,7 @@ class Network:
                   identifier and the value is the corresponding node
 
     Representation Invariants:
-        - all(identifier == self._nodes[identifier].identifier for identifier in self._nodes)
+        - all(node == self._nodes[node].identifier for node in self._nodes)
     """
 
     _nodes: dict[int, Union[Person, Restaurant]]
@@ -195,7 +198,11 @@ class Network:
             self._nodes[node1.identifier].neighbours[node2.identifier] = self._nodes[node2.identifier]
 
     def get_distance(self, departure: Node, destination: Node) -> float:
-        """Returns the straight distance between the departure and destination location"""
+        """Returns the straight distance between the departure and destination location
+
+        Preconditions:
+            - departure.identifier != destination.identifier
+        """
 
         x_dist: float = (destination.coordinate[0] - departure.coordinate[0]) ** 2
         y_dist: float = (destination.coordinate[1] - departure.coordinate[1]) ** 2
@@ -204,7 +211,11 @@ class Network:
 
     def get_shortest_route(self, user: Person) -> list[Node]:
         """Return the shortest route from all possible routes in this network which satifies the person's
-        prefernce by ascending distance order"""
+        prefernce by ascending distance order.
+
+        Preconditions:
+            - len(user.neighbours) > 0
+        """
 
         routes: list[tuple[list[Node], float]] = []
 
