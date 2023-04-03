@@ -207,7 +207,7 @@ class Network:
         routes: list[tuple[list[Node], float]] = []
 
         for route in user.find_all_routes(len(user.route_plan), set()):
-            routes.append((route, sum(self.get_distance(route[i], route[i + 1]) for i in range(len(route) - 1))))
+            routes.append((route[1:], sum(self.get_distance(route[i], route[i + 1]) for i in range(len(route) - 1))))
 
         routes.sort(key=lambda x: x[1])
 
