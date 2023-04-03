@@ -1,0 +1,38 @@
+Restaurant,Address,Longitutde,Latitude,Price,Type
+Mexian Tortillas Burr,Robarts Library,43.6646024,-79.39969,1,Lunch
+Pig Out BBQ,650 Spadina Ave.,43.66334507,-79.40252419,1,Lunch
+Cora Pizza,656 Spadina Ave.,43.66341948,-79.40262083,1,Lunch
+Magic Noodle downtown,93 Harbord St,43.66275317,-79.4035362,1,Lunch
+The Fortunate Fox,280 Bloor St W,43.66771991,-79.40087309,2,Lunch
+7 West Cafe,7 Charles St W,43.66860261,-79.38673299,2,Lunch
+Amal Toronto,131 Bloor St W,43.66889395,-79.39238157,2,Lunch
+Sidney Smith Cafe,100 St George st,43.66267045,-79.39848886,1,Fast Food
+Tim Hortons 0,1170 Bay St,43.66908925,-79.38964582,1,Fast Food
+NewYorker Deli,1140 Bay St,43.66850933,-79.38914834,1,Fast Food
+Subway,1102 Bay St,43.66783632,-79.38879286,1,Fast Food
+Shawarma Q,987 Bay St,43.66534888,-79.387009,1,Fast Food
+Mullins Irish Pub,1033 Bay St,43.66644525,-79.38730533,2,Drinks
+Chatime,199 College St,43.65882786,-79.39498787,1,Drinks
+Tiger Sugar,439 Yonge St,43.66119145,-79.38274516,1,Drinks
+Coco,648A Yonge St,43.6669744,-79.38550934,1,Drinks
+Opus restaurant,37 Prince Arthur Ave,43.66937921,-79.39710411,4,Dinner
+Salon private Dining,162 Cumberland St,43.67007207,-79.39362792,4,Dinner
+Sassafraz,100 Cumberland Sr,43.67060459,-79.39120964,2,Dinner
+Piano Piano Restaurant,88 Harbord St,43.66327904,-79.40288699,3,Dinner
+RASA,196 Robert St,43.66301165,-79.40400474,2,Dinner
+Gyubee Japanese grill,335 Bloor St W,43.66731016,-79.4005699,2,Dinner
+Signatures Restaurant,220 Bloor St W,43.66892301,-79.39625637,3,Dinner
+Yasu Toronto,81 Harbord St,43.66293141,-79.40308881,3,Dinner
+Parquet,97 Harbord St,43.66267308,-79.40361472,1,Dinner
+Wings & Tings To,736 Sussex Mews,43.66582956,-79.40407777,1,Dinner
+Dessert Kitchen,73 Harbord St,43.662865,-79.40283009,1,Dessert 
+Dessert Lady Cafe and Bakery,1 Sultan St,43.66875049,-79.3900614,1,Dessert 
+D Spot Dessert,828 Bay St,43.66207614,-79.38652489,2,Dessert
+T-Swirl Crepe,510 Yonge St,43.66363755,-79.38404843,2,Dessert
+Honeymoon Dessert,460 Spadina Ave,43.65762886,-79.40020336,1,Dessert
+Starbucks,47 Charles St W,43.66821011,-79.38837974,1,Cafe
+Starbucks,1 King's College ,43.66101307,-79.39353837,1,Cafe
+Starbucks,205 College st,43.65874349,-79.39540673,1,Cafe
+Starbucks,130 St. Geroge St,43.66456198,-79.399411,1,Cafe
+Pronto Cafe to-go,790 Bay St,43.66059072,-79.38608006,2,Cafe
+L'Espresso Bar Mercurio,321 Bloor St W,43.66760923,-79.39910517,2,Cafe
