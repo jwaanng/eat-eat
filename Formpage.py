@@ -166,9 +166,4 @@ class Form:
         self.window.mainloop()
 
 
-if __name__ == "__main__":
-    python_ta.check_all(config={
-    'extra-imports': ['tkinter', 'Mapview', 'typing'],  # the names (strs) of imported modules
-    'allowed-io': ['get_selections'],     # the names (strs) of functions that call print/open/input
-    'max-line-length': 120
-})
+
