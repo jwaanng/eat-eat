@@ -2,9 +2,10 @@ from tkinter import *
 import tkintermapview_gui as tkmap
 import classes
 import main
-import formpage
+import uselessFormpage
 
-class MapWindow():
+
+class MapWindow:
     def __init__(self):
         self.window = Tk()
         self.window.title("EAT EAT MAP")

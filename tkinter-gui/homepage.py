@@ -4,7 +4,13 @@ import formpage
 
 
 class HomePage:
-    """TODO"""
+    """Class representing the home page
+
+    Instance Attributes:
+    - form_page: representing the form object related to this homepage
+    """
+    form_page = None or formpage.Form()
+
     def __init__(self):
         # Create the main window
         self.window = Tk()
@@ -60,8 +66,9 @@ class HomePage:
         """Directs to the 'formpage' when button is pressed"""
         # Destroy the current window
         self.window.destroy()
-        form = formpage.FormWindow()
+        form = formpage.Form()
         form.create_new_window()
+        self.form_page = form
         form.run()
 
     def run(self):

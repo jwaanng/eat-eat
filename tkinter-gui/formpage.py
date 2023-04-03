@@ -1,21 +1,29 @@
-"""TODO"""
+import tkinter as tk
+from tkinter import ttk
 
 
-from tkinter import *
-from PIL import Image, ImageTk
-from python_ta.contracts import check_contracts
-# import mappage
-
-
-@check_contracts
-class FormWindow:
+class Form():
     """A class of representing the Tkinter window for the user info form.
+
+    Instance Attributes
+    - selections: list of user suggestions
+    - slider_submitted: whether user submitted slider or not
+    - selections: list of user suggestions
     """
+    slider_submitted = False
+    main_frame: None
+    selections: list[tuple[str, str]]
 
     def __init__(self):
-        self.window = Tk()
+        self.window = tk.Tk()
         self.window.title("EAT EAT FORM")
         self.window.geometry("1200x800")
+
+    def submit_slider(self, num_places) -> None:
+        """A function that lets user only submit the slider once."""
+        if not self.slider_submitted:
+            self.slider_submitted = True
+            self.places_select(num_places)
 
     def get_selections(self, selected_places: list, selected_budgets: list) -> list[tuple[str, str]]:
         """Gives a list of the strings of each place chosen by user in the
@@ -30,117 +38,81 @@ class FormWindow:
         selections = [(str(selected_places[i]), str(selected_budgets[i]))
                       for i in range(len(selected_places))]
 
-        print(selections)
+        # print(selections)
+        self.selections = selections
         return selections
 
     def places_select(self, num_places):
-        """This function takes in the input number of places and returns that number of radio selections"""
-
-        # main_frame = Frame(self.window)
-        # main_frame.pack(fill=BOTH, expand=1)
-
-        # canvas = Canvas(main_frame)
-        # canvas.pack(side=LEFT, fill=BOTH, expand=1)
-
-        # scrollbar = ttk.Scrollbar(main_frame, orient=VERTICAL, command=canvas.yview)
-        # scrollbar.pack(side=RIGHT, fill=Y)
-
-        # canvas.configure(yscrollcommand=scrollbar.set)
-        # canvas.bind('<Configure>', lambda event: canvas.configure(scrollregion = canvas.bbox("all")))
-
-        # second_frame = Frame(canvas)
-
-        # canvas.create_window((0,0), window=second_frame, anchor="nw")
-        # my failed scrollbar T-T
-
         options = ['Cafe', 'Dessert', 'Dinner', 'Drinks',
-                   'Fast Food', 'Lunch', 'Doesn\'t Matter']
+                   'Fast Food', 'Lunch']
         budget_options = ['$', '$$', '$$$', '$$$$']
 
-        # holding current selections in order
         selected_places = []
         selected_budgets = []
 
-        for i in range(num_places):
+        budget_frame = tk.LabelFrame(self.main_frame)
+        budget_frame.grid(row=1, column=0)
+
+        for i in range(int(num_places)):
             # Variables for holding current selection
-            selected_place = StringVar()
-            selected_budget = StringVar()
+            selected_place = tk.StringVar()
+            selected_budget = tk.StringVar()
 
-            # Radio Frame for type of place
-            radio_frame = Frame(self.window, bg="#f2f2f2", padx=20, pady=10)
-            group_label = "Place Number" + str(i+1) + ":"
-            label = Label(radio_frame, text=group_label, font=(
+            # Combobox for type of place
+            group_label = "Place #" + str(i + 1) + ":"
+            selections_label = tk.Label(budget_frame, text=group_label, font=(
                 "Didact Gothic", 10), bg="#f2f2f2", fg="#26547c")
-            label.pack()
+            selections_label.grid(row=i + 1, column=0)
 
-            for option in options:
-                button = Radiobutton(radio_frame,
-                                     text=option, variable=selected_place, value=option,
-                                     font=("Didact Gothic", 10), bg="#f2f2f2",
-                                     activebackground="#f2f2f2", fg="#26547c", activeforeground="#26547c")
+            selection_combobox = tk.ttk.Combobox(budget_frame, values=options, textvariable=selected_place)
+            selection_combobox.grid(row=i + 1, column=1)
 
-                button.pack(side=LEFT, padx=10)
-            radio_frame.pack()
+            # Combobox for price
+            budget_group_label = "Budget #" + str(i + 1) + ":"
+            budget_label = tk.Label(budget_frame, text=budget_group_label, font=(
+                "Didact Gothic", 10), bg="#f2f2f2", fg="#26547c")
+            budget_label.grid(row=i + 1, column=2)
+            budget_combobox = ttk.Combobox(budget_frame, values=budget_options, textvariable=selected_budget)
+            budget_combobox.grid(row=i + 1, column=3)
 
             selected_places.append(selected_place)
-
-            # Radio Frame for budget
-            radio_frame = Frame(self.window, bg="#f2f2f2", padx=20, pady=10)
-            group_label = "Budget for place:" + str(i+1) + ":"
-            label = Label(radio_frame, text=group_label, font=(
-                "Didact Gothic", 10), bg="#f2f2f2", fg="#26547c")
-            label.pack()
-
-            for budget in budget_options:
-                button = Radiobutton(radio_frame,
-                                     text=budget, variable=selected_budget, value=budget, font=("Didact Gothic", 10),
-                                     bg="#f2f2f2", activebackground="#f2f2f2", fg="#26547c", activeforeground="#26547c")
-                button.pack(side=LEFT, padx=10)
-            radio_frame.pack()
-
             selected_budgets.append(selected_budget)
 
-        button = Button(self.window, text="Submit selections",
-                        command=lambda: self.get_selections(selected_places, selected_budgets),
-                        font=("Didact Gothic", 10), bg="#26547c", fg="#ffffff", padx=5, pady=5,
-                        activebackground="#f2f2f2", activeforeground="#26547c")
-        button.pack()
+        submit_button = tk.Button(budget_frame, text="Submit selections",
+                                  command=lambda: self.get_selections(selected_places, selected_budgets),
+                                  font=("Didact Gothic", 10), bg="#26547c", fg="#ffffff", padx=5, pady=5,
+                                  activebackground="#f2f2f2", activeforeground="#26547c")
+        submit_button.grid(row=5, column=2)
 
-    def submit_slider(self, num_places) -> None:
-        """A function that lets user only submit the slider once."""
-        if not self.slider_submitted:  # check if slider has been submitted before
-            self.slider_submitted = True
-            self.places_select(num_places)
+    def create_new_window(self):
+        frame = tk.Frame(self.window)
+        self.main_frame = frame
+        frame.pack()
 
-    def create_new_window(self) -> None:
-        """TODO"""
-        num_places = IntVar()
-        self.slider_submitted = False  # initialize the attribute
+        places_visit_frame = tk.LabelFrame(frame)
+        places_visit_frame.grid(row=0, column=0)
 
-        slider_label = Label(self.window, text="How many places would you like to visit?", font=(
-            "Didact Gothic", 18), fg="#26547c", padx=10, pady=10)
-        slider_label.pack()
+        num_places = tk.IntVar()
+        slider_label = tk.Label(places_visit_frame, text="How many places would you like to visit?", font=(
+            "Didact Gothic", 15), fg="#26547c", padx=10, pady=10)
+        slider_label.grid(row=0, column=0)
 
-        slider_frame = Frame(self.window, bg="#f2f2f2", padx=20, pady=20)
-        slider_frame.pack()
+        slider = tk.Scale(places_visit_frame, from_=1, to=4, variable=num_places, length=300,
+                          width=20,
+                          sliderlength=20, highlightthickness=0, bg="#f2f2f2",
+                          activebackground="#26547c", troughcolor="#d9d9d9", orient=tk.HORIZONTAL)
+        slider.grid(row=1, column=0)
 
-        slider = Scale(slider_frame, from_=1, to=4, variable=num_places, orient=HORIZONTAL, length=300, width=20,
-                       sliderlength=20, highlightthickness=0, bg="#f2f2f2",
-                       activebackground="#26547c", troughcolor="#d9d9d9")
-        slider.pack()
-
-        submit_button = Button(self.window, text="Submit", font=("Didact Gothic", 10), bg="#26547c", fg="#ffffff",
-                               padx=5, pady=5, activebackground="#f2f2f2", activeforeground="#26547c",
-                               command=lambda: self.submit_slider(int(num_places.get())))
-        submit_button.pack()
-
-    def go_to_map_page(self) -> None:
-        """Directs to the 'formpage' when button is pressed"""
-        # Destroy the current window
-        self.window.destroy()
-        ...
+        submit_button = tk.Button(places_visit_frame, text="OK!", font=("Didact Gothic", 10), bg="#26547c",
+                                  fg="#ffffff",
+                                  padx=5, pady=5, activebackground="#f2f2f2", activeforeground="#26547c",
+                                  command=lambda: self.submit_slider(int(num_places.get())))
+        submit_button.grid(row=1, column=1)
 
     def run(self):
-        """TODO"""
-        # Run the main loop
         self.window.mainloop()
+
+
+hi = Form()
+hi.create_new_window()
+hi.run()
