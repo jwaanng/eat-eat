@@ -2,8 +2,9 @@ import tkinter as tk
 from tkinter import ttk
 import tkintermapview_gui
 
+
 # hi minseok
-class Form():
+class Form:
     """A class of representing the Tkinter window for the user info form.
 
     Instance Attributes
@@ -116,7 +117,6 @@ class Form():
 
     def run(self):
         self.window.mainloop()
-
 
 # hi = Form()
 # hi.create_new_window()
