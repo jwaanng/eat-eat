@@ -109,9 +109,4 @@ if __name__ == '__main__':
 
     test.mainloop()
     
-    if __name__ == "__main__":
-    python_ta.check_all(config={
-    'extra-imports': ['tkinter', 'tkintermapview', 'typing', 'Classes_and_Functions'],  # the names (strs) of imported modules
-    'allowed-io': [],     # the names (strs) of functions that call print/open/input
-    'max-line-length': 120
-})
+  
