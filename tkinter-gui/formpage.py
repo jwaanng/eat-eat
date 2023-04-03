@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
-import tkintermapview_gui
+import tkintermapview_gui as tkmap
+
 
 # hi minseok
 class Form():
@@ -11,14 +12,18 @@ class Form():
     - slider_submitted: whether user submitted slider or not
     - selections: list of user suggestions
     """
-    slider_submitted = False
+    slider_submitted: bool
     main_frame: None
     selections: list[tuple[str, str]]
+    coordinates: tuple[float, float]
 
     def __init__(self):
         self.window = tk.Tk()
         self.window.title("EAT EAT FORM")
         self.window.geometry("1200x800")
+
+        self.main_frame = None
+        self.slider_submitted = False
 
     def submit_slider(self, num_places) -> None:
         """A function that lets user only submit the slider once."""
@@ -53,7 +58,7 @@ class Form():
         selected_budgets = []
 
         budget_frame = tk.LabelFrame(self.main_frame)
-        budget_frame.grid(row=1, column=0)
+        budget_frame.grid(row=1, column=0, ipadx=114)
 
         for i in range(int(num_places)):
             # Variables for holding current selection
@@ -86,8 +91,38 @@ class Form():
                                   activebackground="#f2f2f2", activeforeground="#26547c")
         submit_button.grid(row=5, column=2)
 
+        self.create_map()
+
     def create_map(self):
-        ...
+        places_visit_frame = tk.LabelFrame(self.main_frame)
+        places_visit_frame.grid(row=2, column=0)
+
+        user_position = []
+
+        def confirm_selection():
+            if user_position:
+                print(user_position[0])
+            else:
+                return
+
+        button = tk.Button(places_visit_frame, text="Submit selections",
+                           command=lambda: confirm_selection(),
+                           font=("Didact Gothic", 10), bg="#26547c", fg="#ffffff", padx=5, pady=5,
+                           activebackground="#f2f2f2", activeforeground="#26547c")
+        button.grid(row=1, column=0)
+
+        map_widget_example_2 = tkmap.create_user_location_select_map(places_visit_frame, 700, 500)
+
+        def add_marker_event(coords):
+            map_widget_example_2.delete_all_marker()
+            new_marker = map_widget_example_2.set_marker(coords[0], coords[1], text="You are here")
+            user_position.clear()
+            user_position.append(new_marker.position)
+            self.coordinates = coords
+
+        map_widget_example_2.add_right_click_menu_command(label="Select location",
+                                                          command=add_marker_event,
+                                                          pass_coords=True)
 
     def create_new_window(self):
         frame = tk.Frame(self.window)
@@ -95,7 +130,7 @@ class Form():
         frame.pack()
 
         places_visit_frame = tk.LabelFrame(frame)
-        places_visit_frame.grid(row=0, column=0)
+        places_visit_frame.grid(row=0, column=0, ipadx=138)
 
         num_places = tk.IntVar()
         slider_label = tk.Label(places_visit_frame, text="How many places would you like to visit?", font=(
@@ -116,7 +151,6 @@ class Form():
 
     def run(self):
         self.window.mainloop()
-
 
 # hi = Form()
 # hi.create_new_window()

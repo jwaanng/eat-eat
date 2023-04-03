@@ -7,7 +7,7 @@ from classes import Restaurant
 
 def create_user_location_select_map(labelframe: tkinter.LabelFrame, width: int, height: int) -> tkmap.TkinterMapView:
     map_widget = tkmap.TkinterMapView(labelframe, width=width, height=height)
-    map_widget.pack()
+    map_widget.grid(row=0, column=0)  # i changed this to grid - JW
     map_widget.set_tile_server("http://a.tile.stamen.com/toner/{z}/{x}/{y}.png")
     map_widget.set_position(deg_x=43.6658971, deg_y=-79.3906104)
     map_widget.set_zoom(15)
