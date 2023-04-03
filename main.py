@@ -109,8 +109,8 @@ def generate_new_network_test() -> None:
 
 
 if __name__ == "__main__":
-    # restaurant_data: list[Restaurant] = load_restuarant_data(...)
+    restaurant_data: list[Restaurant] = load_restuarant_data('./Data/Restaurants.csv')
     # person: Person = Person(0, ..., )      # idk how exactly the list of perference will be inputted
     # network: Network = generate_new_network(person)
 
-    generate_new_network_test()
+    # generate_new_network_test()
