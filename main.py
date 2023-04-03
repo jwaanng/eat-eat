@@ -1,4 +1,4 @@
-"""main"""
+"""A runner file for this project."""
 
 from Classes_and_Functions import *
 from Homepage import *
