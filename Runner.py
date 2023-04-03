@@ -1,6 +1,6 @@
 """main"""
 
-from tkintermapview_gui import *
+from tkinterGUI.mapview import *
 from tkinterGUI.formpage import *
 from tkinterGUI.homepage import *
 from tkinterGUI.mappage import *
