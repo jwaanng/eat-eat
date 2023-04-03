@@ -8,7 +8,11 @@ import csv
 
 
 def load_restuarant_data(file: str) -> list[Restaurant]:
-    """Reads a given restaurants csv file and outputs a list of restaurants"""
+    """Reads a given restaurants csv file and outputs a list of restaurants
+
+    Preconditions:
+        - file != ''
+    """
     with open(file) as restaurants_file:
         reader = csv.reader(restaurants_file)
         list_of_restuarants = []
@@ -62,8 +66,8 @@ if __name__ == "__main__":
     person: Person = Person(identifier=0, coordinate=homepage.form_page.coordinates,
                             route_plan=homepage.form_page.selections, restaurant_data=restaurant_data)
     network: Network = generate_new_network(person)
-    shortest_path = network.get_shortest_route(person)
+    shortest_path: list[Node] = network.get_shortest_route(person)
+    result_page: LocationPage = LocationPage()
 
-    result_page = LocationPage()
     result_page.create_new_window(shortest_path)
     result_page.run()
