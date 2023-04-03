@@ -12,7 +12,7 @@ class Node:
     Instance Attributes
     - identifier:
         The id is an integer value that uniquely identifies each node
-    - coordinates:
+    - coordinate:
         For the restaurant: A tuple representing longitutde and latitude of the restaurant's address
         For the person: A tuple representing longitutde and latitude of the person's current location
     - neighbors:
@@ -24,13 +24,13 @@ class Node:
      - all(neighbour == self.neighbour[neighbour].identifier for neighbour in self.neighbours)
     """
     identifier: int
-    coordinates: tuple[float, float]
+    coordinate: tuple[float, float]
     neighbours: dict[int, Node]
 
-    def __init__(self, identifier: int, coordinates: tuple[float, float]) -> None:
+    def __init__(self, identifier: int, coordinate: tuple[float, float]) -> None:
         """Initialize this node with the unique identifier and coordinate location"""
         self.identifier = identifier
-        self.coordinates = coordinates
+        self.coordinate = coordinate
         self.neighbours = {}
 
     def find_all_routes(self, route_length: int, visited: set[Node]) -> list[list[Node]]:
@@ -79,11 +79,11 @@ class Restaurant(Node):
     r_type: str  # r short for restaurant
     address: str
 
-    def __init__(self, identifier: int, coordinates: tuple[float, float],
+    def __init__(self, identifier: int, coordinate: tuple[float, float],
                  name: str, price: int, r_type: str, address: str) -> None:
         """Initialize the restaurant with the given arguments."""
 
-        super().__init__(identifier, coordinates)
+        super().__init__(identifier, coordinate)
 
         self.name = name
         self.price = price
@@ -93,7 +93,7 @@ class Restaurant(Node):
     def __repr__(self) -> str:
         """Return a string representing this restaurant"""
 
-        # return f"Restaurant: {self.name}, coordinates: {self.coordinates}, " \
+        # return f"Restaurant: {self.name}, coordinate: {self.coordinate}, " \
         #        f"price: {'$' * self.price}, type: {self.r_type}, address: {self.address}"
 
         return f'Restaurant: {self.name}'
@@ -116,11 +116,11 @@ class Person(Node):
     preference: dict[tuple[str, int], list[Restaurant]]       # {restaurant type: corresponding POSSIBLE restaurants}
     _possible_options: list[Restaurant]                       # [ALL possible restaurants]
 
-    def __init__(self, identifier: int, coordinates: tuple[float, float],
+    def __init__(self, identifier: int, coordinate: tuple[float, float],
                  route_plan: list[tuple[str, int]], restaurant_data: list[Restaurant]) -> None:
         """Initialize the person with the given arguments."""
 
-        super().__init__(identifier, coordinates)
+        super().__init__(identifier, coordinate)
 
         self.route_plan = route_plan.copy()
         self._possible_options = restaurant_data.copy()
@@ -146,7 +146,7 @@ class Person(Node):
         return new_preference
 
     def __repr__(self):
-        return f"Person's location: {self.coordinates}"
+        return f"Person's location: {self.coordinate}"
 
 
 @check_contracts
@@ -195,8 +195,8 @@ class Network:
     def get_distance(self, departure: Node, destination: Node) -> float:
         """Returns the straight distance between the departure and destination location"""
 
-        x_dist: float = (destination.coordinates[0] - departure.coordinates[0]) ** 2
-        y_dist: float = (destination.coordinates[1] - departure.coordinates[1]) ** 2
+        x_dist: float = (destination.coordinate[0] - departure.coordinate[0]) ** 2
+        y_dist: float = (destination.coordinate[1] - departure.coordinate[1]) ** 2
 
         return (x_dist + y_dist) ** 0.5
 

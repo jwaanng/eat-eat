@@ -34,8 +34,8 @@ def create_map_widget(labelframe: tkinter.LabelFrame, list_of_restaurant_paths: 
         list_of_restaurant_positions = []
         for restaurant in path:
             marker = map_widget.set_marker(
-                deg_x=restaurant.coordinates[0],
-                deg_y=restaurant.coordinates[1],
+                deg_x=restaurant.coordinate[0],
+                deg_y=restaurant.coordinate[1],
                 text=restaurant.name
             )
             list_of_restaurant_positions.append(marker.position)
