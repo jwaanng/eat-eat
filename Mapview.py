@@ -14,7 +14,7 @@ class LocationPage:
         self.window.title("EAT EAT FORM")
         self.window.geometry("1200x800")
 
-    def create_new_window(self, route: list[Node]):
+    def create_new_window(self, route: list[Restaurant]):
         frame = tk.Frame(self.window)
         self.main_frame = frame
         frame.pack()
@@ -36,7 +36,7 @@ def create_user_location_select_map(labelframe: tk.LabelFrame, width: int, heigh
         - width < labelframe.width and height < labelframe.height
     """
     map_widget = tkmap.TkinterMapView(labelframe, width=width, height=height)
-    map_widget.grid(row=0, column=0)  # i changed this to grid - JW
+    map_widget.grid(row=0, column=0)
     map_widget.set_tile_server("http://a.tile.stamen.com/toner/{z}/{x}/{y}.png")
     map_widget.set_position(deg_x=43.6658971, deg_y=-79.3906104)
     map_widget.set_zoom(15)
@@ -47,8 +47,8 @@ def create_user_location_select_map(labelframe: tk.LabelFrame, width: int, heigh
 def create_map_widget(labelframe: tk.LabelFrame,
                       list_of_restaurant_routes: tuple[list[Union[Person, Restaurant]], float],
                       width: int, height: int) -> tkmap.TkinterMapView:
-    """Create a map widget given a list of restaurant paths showing markers for each restaurant and the paths
-    between each restaurant.
+    """Create a map widget given a list of node paths showing markers for each node and the paths
+    between each node.
 
     Preconditions:
         - width < labelframe.width and height < labelframe.height
@@ -63,12 +63,19 @@ def create_map_widget(labelframe: tk.LabelFrame,
     for route, distance in list_of_restaurant_routes:
         list_of_restaurant_positions = []
 
-        for restaurant in route:
-            marker = map_widget.set_marker(
-                    deg_x=restaurant.coordinate[0],
-                    deg_y=restaurant.coordinate[1],
-                    text=restaurant.name
+        for node in route:
+            if type(node) == Person:
+                marker = map_widget.set_marker(
+                    deg_x=node.coordinate[0],
+                    deg_y=node.coordinate[1],
+                    text=f'{node.name} |' + f'Total Distance: {distance}'
                 )
+            else:
+                marker = map_widget.set_marker(
+                        deg_x=node.coordinate[0],
+                        deg_y=node.coordinate[1],
+                        text=f'{node.name}' + '(' + '$' * node.price + ')'
+                    )
             list_of_restaurant_positions.append(marker.position)
 
         map_widget.set_path(list_of_restaurant_positions)
@@ -108,5 +115,3 @@ if __name__ == '__main__':
                                                       pass_coords=True)
 
     test.mainloop()
-    
-  
