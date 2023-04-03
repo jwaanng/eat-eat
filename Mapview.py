@@ -7,14 +7,17 @@ from Classes_and_Functions import Restaurant, Person
 
 
 class LocationPage:
+    """Class for the interface page which generates a graphical visualization of the map"""
     coordinates: tuple[float, float]
 
     def __init__(self):
+        """Initiate a LocationPage with a tkinter window"""
         self.window = tk.Tk()
         self.window.title("EAT EAT FORM")
         self.window.geometry("1200x800")
 
     def create_new_window(self, route: list[Restaurant]):
+        """Create a new window containing a map widget displaying the restaurants on the map"""
         frame = tk.Frame(self.window)
         self.main_frame = frame
         frame.pack()
@@ -26,6 +29,7 @@ class LocationPage:
         map_widget.pack()
 
     def run(self):
+        """Opens up the window"""
         self.window.mainloop()
 
 
