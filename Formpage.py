@@ -168,6 +168,7 @@ class Form:
         self.window.mainloop()
 
 
+<<<<<<< HEAD
 if __name__ == "__main__":
     import python_ta
 
@@ -176,3 +177,6 @@ if __name__ == "__main__":
         'allowed-io': ['get_selections'],  # the names (strs) of functions that call print/open/input
         'max-line-length': 120
     })
+=======
+
+>>>>>>> 75834d9f315053ffc72884cc1c69d5fb41763f32
