@@ -1,6 +1,11 @@
 """main"""
 
+from tkinterGUI.mapview import *
+from tkinterGUI.formpage import *
+from tkinterGUI.homepage import *
+from tkinterGUI.mappage import *
 from classes import *
+
 import csv
 
 
@@ -103,14 +108,10 @@ def generate_new_network_test() -> None:
     for route in routes:
         print(route)
 
-# def test_geo():
-#     geolocator = Nominatim(user_agent="eat-eat")
-#     location = geolocator.geocode("1140 Bay St., Toronto, ON")
-
 
 if __name__ == "__main__":
     restaurant_data: list[Restaurant] = load_restuarant_data('./Data/Restaurants.csv')
-    # person: Person = Person(0, ..., )      # idk how exactly the list of perference will be inputted
-    # network: Network = generate_new_network(person)
+    person: Person = Person(0, ..., )
+    network: Network = generate_new_network(person)
 
     # generate_new_network_test()

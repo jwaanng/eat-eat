@@ -1,10 +1,14 @@
 import tkinter as tk
 from tkinter import ttk
+<<<<<<< HEAD:tkinter-gui/formpage.py
 import tkintermapview_gui as tkmap
+=======
+import mapview
+>>>>>>> f15e63d4436e9b6ed4787747be6e1cc564eaef5f:tkinterGUI/formpage.py
 
 
 # hi minseok
-class Form():
+class Form:
     """A class of representing the Tkinter window for the user info form.
 
     Instance Attributes

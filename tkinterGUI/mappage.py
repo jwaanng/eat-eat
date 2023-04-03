@@ -1,5 +1,5 @@
 from tkinter import *
-import tkintermapview_gui as tkmap
+import mapview
 import classes
 import main
 import uselessFormpage
