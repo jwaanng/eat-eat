@@ -14,7 +14,7 @@ class Node:
         The id is an integer value that uniquely identifies each node
     - coordinates:
         For the restaurant: A tuple representing longitutde and latitude of the restaurant's address
-        For the person: A tuple representing longitutde and latitude of the the person's current location
+        For the person: A tuple representing longitutde and latitude of the person's current location
     - neighbors:
         A mapping containing the neighbor nodes where the key is the unique neighbor id and
         the value is the corresponding neighbor node.
@@ -93,8 +93,10 @@ class Restaurant(Node):
     def __repr__(self) -> str:
         """Return a string representing this restaurant"""
 
-        return f"Restaurant: {self.name}, coordinates: {self.coordinates}, " \
-               f"price: {'$' * self.price}, type: {self.r_type}, address: {self.address}"
+        # return f"Restaurant: {self.name}, coordinates: {self.coordinates}, " \
+        #        f"price: {'$' * self.price}, type: {self.r_type}, address: {self.address}"
+
+        return f'Restaurant: {self.name}'
 
 
 @check_contracts
@@ -142,6 +144,9 @@ class Person(Node):
                 new_preference[k] = list(filter(lambda x: x.r_type == k[0] and x.price <= k[1], self._possible_options))
 
         return new_preference
+
+    def __repr__(self):
+        return f"Person's location: {self.coordinates}"
 
 
 @check_contracts
@@ -201,20 +206,9 @@ class Network:
 
         routes: list[tuple[list[Node], float]] = []
 
-        for route in self._find_all_routes(user):
+        for route in user.find_all_routes(len(user.route_plan), set()):
             routes.append((route, sum(self.get_distance(route[i], route[i + 1]) for i in range(len(route) - 1))))
 
         routes.sort(key=lambda x: x[1])
-
-        return routes
-
-    def _find_all_routes(self, user: Person) -> list[list[Node]]:
-        """Return a list of all possible paths in this network which satifies the person's prefernce"""
-
-        routes: list[list[Node]] = []
-        route_length = len(user.route_plan) - 1
-
-        for neighbour in user.neighbours.values():
-            routes.extend(neighbour.find_all_routes(route_length, set()))
 
         return routes
