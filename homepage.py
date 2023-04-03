@@ -18,7 +18,7 @@ class HomePage:
         self.window.geometry("1200x800")
 
         # Open the image file using Pillow
-        image = Image.open('./images/background.jpeg')
+        image = Image.open('./Images/background.jpeg')
 
         # Resize the image to fit the window
         image = image.resize((1200, 800), Image.LANCZOS)

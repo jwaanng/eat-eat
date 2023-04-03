@@ -1,9 +1,8 @@
 """main"""
 
-from tkinterGUI.formpage import *
-from tkinterGUI.homepage import *
-from tkinterGUI.mappage import *
-from tkinterGUI.mapview import *
+from formpage import *
+from homepage import *
+from mapview import *
 from classes import *
 
 import csv
@@ -104,8 +103,15 @@ def generate_new_network_test() -> None:
 
 
 if __name__ == "__main__":
+    home_page = HomePage()
+    home_page.run()
+
     restaurant_data: list[Restaurant] = load_restuarant_data('./Data/Restaurants.csv')
-    person: Person = Person(identifier=0, coordinate=..., route_plan=..., restaurant_data=restaurant_data)
+    person: Person = Person(identifier=0, coordinate=home_page.form_page.coordinates,
+                            route_plan=home_page.form_page.selections, restaurant_data=restaurant_data)
     network: Network = generate_new_network(person)
+    recommanded_paths: list[tuple[list[Node], float]] = network.paths_recommandations(person)[:5]
+
+
 
     # generate_new_network_test()
