@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 import mapview as tkmap
 from typing import Union
+from typing import Any
 
 
 class Form:
@@ -27,14 +28,14 @@ class Form:
         self.main_frame = None
         self.slider_submitted = False
 
-    def submit_slider(self, num_places) -> None:
+    def submit_slider(self, num_places: Any) -> None:
         """A function that lets user only submit the slider once."""
         if not self.slider_submitted:
             self.slider_submitted = True
             self.places_select(num_places)
 
     def get_selections(self, selected_places: list, selected_budgets: list) -> list[tuple[str, int]]:
-        """Gives a list of the strings of each place chosen by user in the
+        """Returns a list of tuples of each place chosen by user and their respective price range
 
         Preconditions:
             - len(selected_places) == len(selected_budgets)
@@ -55,8 +56,8 @@ class Form:
 
             return selections
 
-    def places_select(self, num_places) -> None:
-        """Creates a widget that lets user select num_places amount of restaurants and """
+    def places_select(self, num_places: Any) -> None:
+        """Creates a widget that lets the user select their desired number of places to eat and their respective budgets."""
         options = ['Cafe', 'Dessert', 'Dinner', 'Drinks',
                    'Fast Food', 'Lunch']
         budget_options = ['$', '$$', '$$$', '$$$$']
@@ -103,12 +104,14 @@ class Form:
         self.create_map()
 
     def create_map(self) -> None:
+        """Creates a new map for the purposes of letting the user select their location via right clicking and adding a marker."""
         places_visit_frame = tk.LabelFrame(self.main_frame)
         places_visit_frame.grid(row=2, column=0)
 
         user_position = []
 
         def confirm_selection() -> None:
+            """Checks when the button has been clicked and confirms the user position"""
             if user_position and self.selections:
                 print(user_position[0])
                 self.window.destroy()
@@ -121,7 +124,8 @@ class Form:
 
         map_widget_example_2 = tkmap.create_user_location_select_map(places_visit_frame, 700, 500)
 
-        def add_marker_event(coords) -> None:
+        def add_marker_event(coords: tuple[float, float]) -> None:
+            """A rightclick-event that logs the user position and adds it to the map as a marker."""
             map_widget_example_2.delete_all_marker()
             new_marker = map_widget_example_2.set_marker(coords[0], coords[1], text="You are here")
             user_position.clear()
@@ -133,6 +137,7 @@ class Form:
                                                           pass_coords=True)
 
     def create_new_window(self) -> None:
+        """Creates a new window to contain the gui elements of the form"""
         frame = tk.Frame(self.window)
         self.main_frame = frame
         frame.pack()
