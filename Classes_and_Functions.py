@@ -280,3 +280,7 @@ def update_user_preference(user: Person, new_preference: list[tuple[str, int]]) 
     user.update_preferences(new_preference)
 
     return generate_new_network(user)
+
+
+if __name__ == "__main__":
+    import python_ta
