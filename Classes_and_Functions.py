@@ -119,9 +119,9 @@ class Person(Node):
         - self._possible_options != []
     """
 
-    route_plan: list[tuple[str, int]]                         # [(restaurant type, price range)]
-    preference: dict[tuple[str, int], list[Restaurant]]       # {restaurant type: corresponding POSSIBLE restaurants}
-    _possible_options: list[Restaurant]                       # [ALL possible restaurants]
+    route_plan: list[tuple[str, int]]  # [(restaurant type, price range)]
+    preference: dict[tuple[str, int], list[Restaurant]]  # {restaurant type: corresponding POSSIBLE restaurants}
+    _possible_options: list[Restaurant]  # [ALL possible restaurants]
 
     def __init__(self, identifier: int, coordinate: tuple[float, float],
                  route_plan: list[tuple[str, int]], restaurant_data: list[Restaurant]) -> None:
@@ -284,8 +284,9 @@ def update_user_preference(user: Person, new_preference: list[tuple[str, int]]) 
 
 if __name__ == "__main__":
     import python_ta
+
     python_ta.check_all(config={
-    'extra-imports': ['__future__', 'typing'],  # the names (strs) of imported modules
-    'allowed-io': [],     # the names (strs) of functions that call print/open/input
-    'max-line-length': 120
-})
+        'extra-imports': ['__future__', 'typing'],  # the names (strs) of imported modules
+        'allowed-io': [],  # the names (strs) of functions that call print/open/input
+        'max-line-length': 120
+    })
