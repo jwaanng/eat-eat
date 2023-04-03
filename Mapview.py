@@ -2,7 +2,7 @@
 
 import tkinter as tk
 import tkintermapview as tkmap
-from classes import Node
+from Classes_and_Functions import Node
 
 
 class LocationPage:
@@ -30,7 +30,7 @@ class LocationPage:
 
 def create_user_location_select_map(labelframe: tk.LabelFrame, width: int, height: int) -> tkmap.TkinterMapView:
     """Creates a new map for the purposes of letting the user select their current location.
-    
+
     Preconditions:
         - width < labelframe.width and height < labelframe.height
     """

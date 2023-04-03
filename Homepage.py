@@ -1,5 +1,5 @@
 from tkinter import *
-from formpage import *
+from Formpage import *
 from PIL import Image, ImageTk
 from typing import Union
 
