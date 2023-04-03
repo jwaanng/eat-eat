@@ -29,6 +29,11 @@ class LocationPage:
 
 
 def create_user_location_select_map(labelframe: tk.LabelFrame, width: int, height: int) -> tkmap.TkinterMapView:
+    """Creates a new map for the purposes of letting the user select their current location.
+    
+    Preconditions:
+        - width < labelframe.width and height < labelframe.height
+    """
     map_widget = tkmap.TkinterMapView(labelframe, width=width, height=height)
     map_widget.grid(row=0, column=0)  # i changed this to grid - JW
     map_widget.set_tile_server("http://a.tile.stamen.com/toner/{z}/{x}/{y}.png")
