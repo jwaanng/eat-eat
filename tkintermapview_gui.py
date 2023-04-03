@@ -54,7 +54,10 @@ if __name__ == '__main__':
     user_position = []
     
     def confirm_selection():
-        print(user_position[0])
+        if user_position != []:
+            print(user_position[0])
+        else:
+            return
 
     labelframe_test = tkinter.LabelFrame(test)
     labelframe_test.pack(pady=20)
