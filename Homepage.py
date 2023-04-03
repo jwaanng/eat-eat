@@ -82,3 +82,9 @@ class HomePage:
 if __name__ == "__main__":
     home_page = HomePage()
     home_page.run()
+    
+    python_ta.check_all(config={
+    'extra-imports': ['tkinter', 'Formpage', 'PIL', 'typing'],  # the names (strs) of imported modules
+    'allowed-io': [],     # the names (strs) of functions that call print/open/input
+    'max-line-length': 120
+})
