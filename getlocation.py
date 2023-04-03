@@ -21,7 +21,7 @@ class LocationPage:
         final_map_frame = tk.LabelFrame(frame)
         final_map_frame.pack()
 
-        map_widget = tkmap.create_map_widget(final_map_frame, route, 800, 600)
+        map_widget = tkmap.create_map_widget(final_map_frame, [route], 800, 600)
         map_widget.pack()
 
     def run(self):

@@ -55,7 +55,6 @@ class Form:
             self.selections = selections.copy()
             return selections
 
-
     def places_select(self, num_places):
         """Creates a widget that lets user select num_places amount of restaurants and """
         options = ['Cafe', 'Dessert', 'Dinner', 'Drinks',

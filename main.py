@@ -1,10 +1,8 @@
 """main"""
 
-from formpage import *
 from homepage import *
-from mapview import *
-from classes import *
 from getlocation import *
+from mapview import *
 
 import csv
 
