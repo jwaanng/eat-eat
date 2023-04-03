@@ -115,6 +115,7 @@ class Person(Node):
     route_plan: list[tuple[str, int]]                         # [(restaurant type, price range)]
     preference: dict[tuple[str, int], list[Restaurant]]       # {restaurant type: corresponding POSSIBLE restaurants}
     _possible_options: list[Restaurant]                       # [ALL possible restaurants]
+    name: str
 
     def __init__(self, identifier: int, coordinate: tuple[float, float],
                  route_plan: list[tuple[str, int]], restaurant_data: list[Restaurant]) -> None:
@@ -125,6 +126,7 @@ class Person(Node):
         self.route_plan = route_plan.copy()
         self._possible_options = restaurant_data.copy()
         self.preference = self._update_preferences(route_plan)
+        self.name = 'YOU'
 
     def update_preferences(self, new_route_plan: list[tuple[str, int]]) -> None:
         """Update the person's preferences"""
@@ -200,15 +202,15 @@ class Network:
 
         return (x_dist + y_dist) ** 0.5
 
-    def paths_recommandations(self, user: Person) -> list[tuple[list[Node], float]]:
+    def paths_recommandations(self, user: Person) -> list[Node]:  # list[tuple[list[Node], float]]:
         """Return a sorted list of all possible routes in this network which satifies the person's prefernce by
         ascending distance order"""
 
         routes: list[tuple[list[Node], float]] = []
 
         for route in user.find_all_routes(len(user.route_plan), set()):
-            routes.append((route[1:], sum(self.get_distance(route[i], route[i + 1]) for i in range(len(route) - 1))))
+            routes.append((route, sum(self.get_distance(route[i], route[i + 1]) for i in range(len(route) - 1))))
 
         routes.sort(key=lambda x: x[1])
 
-        return routes
+        return routes[0][0]

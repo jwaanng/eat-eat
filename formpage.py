@@ -14,13 +14,15 @@ class Form:
     """
     slider_submitted: bool
     main_frame: Union[None, tk.Frame]
-    selections: list[tuple[str, str]]
+    selections: list[tuple[str, int]]
     coordinates: tuple[float, float]
 
     def __init__(self):
         self.window = tk.Tk()
         self.window.title("EAT EAT FORM")
         self.window.geometry("1200x800")
+
+        self.selections = None
 
         self.main_frame = None
         self.slider_submitted = False
@@ -31,7 +33,7 @@ class Form:
             self.slider_submitted = True
             self.places_select(num_places)
 
-    def get_selections(self, selected_places: list, selected_budgets: list) -> list[tuple[str, str]]:
+    def get_selections(self, selected_places: list, selected_budgets: list) -> list[tuple[str, int]]:
         """Gives a list of the strings of each place chosen by user in the
 
         Preconditions:
@@ -41,12 +43,19 @@ class Form:
         selected_budgets = [budget.get() for budget in selected_budgets]
         selected_places = [place.get() for place in selected_places]
 
-        selections = [(str(selected_places[i]), str(selected_budgets[i]))
-                      for i in range(len(selected_places))]
+        selected_budgets = list(filter(lambda x: x != '', selected_budgets))
+        selected_places = list(filter(lambda x: x != '', selected_places))
 
-        # print(selections)
-        self.selections = selections
-        return selections
+        # print(len(selected_budgets), selected_places)
+
+        if selected_budgets and selected_places:
+            selections = [(str(selected_places[i]), len(selected_budgets[i]))
+                          for i in range(len(selected_places))]
+
+            print(selections)
+            self.selections = selections.copy()
+            return selections
+
 
     def places_select(self, num_places):
         """Creates a widget that lets user select num_places amount of restaurants and """
@@ -71,7 +80,8 @@ class Form:
                 "Didact Gothic", 10), bg="#f2f2f2", fg="#26547c")
             selections_label.grid(row=i + 1, column=0)
 
-            selection_combobox = tk.ttk.Combobox(budget_frame, values=options, textvariable=selected_place)
+            selection_combobox = tk.ttk.Combobox(budget_frame, values=options,
+                                                 textvariable=selected_place, state="readonly")
             selection_combobox.grid(row=i + 1, column=1)
 
             # Combobox for price
@@ -79,7 +89,8 @@ class Form:
             budget_label = tk.Label(budget_frame, text=budget_group_label, font=(
                 "Didact Gothic", 10), bg="#f2f2f2", fg="#26547c")
             budget_label.grid(row=i + 1, column=2)
-            budget_combobox = ttk.Combobox(budget_frame, values=budget_options, textvariable=selected_budget)
+            budget_combobox = ttk.Combobox(budget_frame, values=budget_options,
+                                           textvariable=selected_budget, state="readonly")
             budget_combobox.grid(row=i + 1, column=3)
 
             selected_places.append(selected_place)
@@ -100,10 +111,9 @@ class Form:
         user_position = []
 
         def confirm_selection():
-            if user_position:
+            if user_position and self.selections:
                 print(user_position[0])
-            else:
-                return
+                self.window.destroy()
 
         button = tk.Button(places_visit_frame, text="Submit selections",
                            command=lambda: confirm_selection(),

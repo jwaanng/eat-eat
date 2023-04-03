@@ -4,6 +4,7 @@ from formpage import *
 from homepage import *
 from mapview import *
 from classes import *
+from getlocation import *
 
 import csv
 
@@ -110,10 +111,19 @@ if __name__ == "__main__":
     person: Person = Person(identifier=0, coordinate=homepage.form_page.coordinates,
                             route_plan=homepage.form_page.selections, restaurant_data=restaurant_data)
     network: Network = generate_new_network(person)
-    recommanded_paths: list[tuple[list[Node], float]] = network.paths_recommandations(person)
+    recommanded_paths = network.paths_recommandations(person)
 
-    if len(recommanded_paths) > 5:
-        recommanded_paths = recommanded_paths[:5]
+    # if len(recommanded_paths) > 5:
+    #     recommanded_paths = recommanded_paths[:5]
+
+    # distances: list[float] = [route[1] for route in recommanded_paths]
+    # recommanded_routes: list[list[Node]] = [route[0] for route in recommanded_paths]
+
+    result_page = LocationPage()
+    result_page.create_new_window(recommanded_paths)
+    result_page.run()
+
+    print(recommanded_paths)
 
 
 
