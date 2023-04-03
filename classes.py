@@ -202,7 +202,7 @@ class Network:
 
         return (x_dist + y_dist) ** 0.5
 
-    def paths_recommandation(self, user: Person) -> list[Node]:
+    def get_shortest_route(self, user: Person) -> list[Node]:
         """Return the shortest route from all possible routes in this network which satifies the person's
         prefernce by ascending distance order"""
 
