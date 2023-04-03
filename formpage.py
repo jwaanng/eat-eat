@@ -17,7 +17,7 @@ class Form:
     selections: Union[list[tuple[str, int]], None]
     coordinates: tuple[float, float]
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize the Form class"""
         self.window = tk.Tk()
         self.window.title("EAT EAT FORM")
@@ -52,9 +52,10 @@ class Form:
 
             print(selections)
             self.selections = selections.copy()
+
             return selections
 
-    def places_select(self, num_places):
+    def places_select(self, num_places) -> None:
         """Creates a widget that lets user select num_places amount of restaurants and """
         options = ['Cafe', 'Dessert', 'Dinner', 'Drinks',
                    'Fast Food', 'Lunch']
@@ -101,13 +102,13 @@ class Form:
 
         self.create_map()
 
-    def create_map(self):
+    def create_map(self) -> None:
         places_visit_frame = tk.LabelFrame(self.main_frame)
         places_visit_frame.grid(row=2, column=0)
 
         user_position = []
 
-        def confirm_selection():
+        def confirm_selection() -> None:
             if user_position and self.selections:
                 print(user_position[0])
                 self.window.destroy()
@@ -120,7 +121,7 @@ class Form:
 
         map_widget_example_2 = tkmap.create_user_location_select_map(places_visit_frame, 700, 500)
 
-        def add_marker_event(coords):
+        def add_marker_event(coords) -> None:
             map_widget_example_2.delete_all_marker()
             new_marker = map_widget_example_2.set_marker(coords[0], coords[1], text="You are here")
             user_position.clear()
@@ -131,7 +132,7 @@ class Form:
                                                           command=add_marker_event,
                                                           pass_coords=True)
 
-    def create_new_window(self):
+    def create_new_window(self) -> None:
         frame = tk.Frame(self.window)
         self.main_frame = frame
         frame.pack()
@@ -156,9 +157,9 @@ class Form:
                                   command=lambda: self.submit_slider(int(num_places.get())))
         submit_button.grid(row=1, column=1)
 
-    def run(self):
+    def run(self) -> None:
         self.window.mainloop()
 
-# hi = Form()
-# hi.create_new_window()
-# hi.run()
+
+if __name__ == "__main__":
+    pass    # TODO pythonTA

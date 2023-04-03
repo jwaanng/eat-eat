@@ -1,6 +1,7 @@
 from tkinter import *
+from formpage import *
 from PIL import Image, ImageTk
-import formpage
+from typing import Union
 
 
 class HomePage:
@@ -9,9 +10,10 @@ class HomePage:
     Instance Attributes:
     - form_page: representing the form object related to this homepage
     """
-    form_page = None
+    form_page: Union[Form, None] = None
 
     def __init__(self):
+        """Initialize the HomePage"""
         # Create the main window
         self.window = Tk()
         self.window.title("EAT EAT HOME")

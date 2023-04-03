@@ -1,7 +1,6 @@
 """main"""
 
 from homepage import *
-from getlocation import *
 from mapview import *
 
 import csv
