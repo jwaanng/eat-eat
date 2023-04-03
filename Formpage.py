@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-import mapview as tkmap
+import Mapview as tkmap
 from typing import Union
 from typing import Any
 
