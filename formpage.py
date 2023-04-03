@@ -8,9 +8,9 @@ class Form:
     """A class of representing the Tkinter window for the user info form.
 
     Instance Attributes
-    - selections: list of user suggestions
-    - slider_submitted: whether user submitted slider or not
-    - selections: list of user suggestions
+        - selections: list of user suggestions
+        - slider_submitted: whether user submitted slider or not
+        - selections: list of user suggestions
     """
     slider_submitted: bool
     main_frame: Union[tk.Frame, None]
@@ -18,6 +18,7 @@ class Form:
     coordinates: tuple[float, float]
 
     def __init__(self):
+        """Initialize the Form class"""
         self.window = tk.Tk()
         self.window.title("EAT EAT FORM")
         self.window.geometry("1200x800")
@@ -44,8 +45,6 @@ class Form:
 
         selected_budgets = list(filter(lambda x: x != '', selected_budgets))
         selected_places = list(filter(lambda x: x != '', selected_places))
-
-        # print(len(selected_budgets), selected_places)
 
         if selected_budgets and selected_places:
             selections = [(str(selected_places[i]), len(selected_budgets[i]))
