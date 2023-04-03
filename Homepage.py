@@ -68,7 +68,7 @@ class HomePage:
         """Directs to the 'formpage' when button is pressed"""
         # Destroy the current window
         self.window.destroy()
-        form = formpage.Form()
+        form = Form()
         form.create_new_window()
         self.form_page = form
         form.run()
