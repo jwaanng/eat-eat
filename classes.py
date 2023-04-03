@@ -70,7 +70,7 @@ class Restaurant(Node):
     Representation Invariants:
         - self.name != ''
         - 0 < self.price < 5
-        - self.r_type in {"Drinks", "Cafe", "Dessert", "Fast Food", "Dinner"}
+        - self.r_type in {"Drinks", "Cafe", "Dessert", "Fast Food", "Lunch", "Dinner"}
         - self.address != ''
     """
 
@@ -80,14 +80,14 @@ class Restaurant(Node):
     address: str
 
     def __init__(self, identifier: int, coordinates: tuple[float, float],
-                 name: str, price: int, restaurant_type: str, address: str) -> None:
+                 name: str, price: int, r_type: str, address: str) -> None:
         """Initialize the restaurant with the given arguments."""
 
         super().__init__(identifier, coordinates)
 
         self.name = name
         self.price = price
-        self.r_type = restaurant_type
+        self.r_type = r_type
         self.address = address
 
     def __repr__(self) -> str:
