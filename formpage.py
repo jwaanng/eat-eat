@@ -13,8 +13,8 @@ class Form:
     - selections: list of user suggestions
     """
     slider_submitted: bool
-    main_frame: Union[None, tk.Frame]
-    selections: list[tuple[str, int]]
+    main_frame: Union[tk.Frame, None]
+    selections: Union[list[tuple[str, int]], None]
     coordinates: tuple[float, float]
 
     def __init__(self):
@@ -23,7 +23,6 @@ class Form:
         self.window.geometry("1200x800")
 
         self.selections = None
-
         self.main_frame = None
         self.slider_submitted = False
 
