@@ -211,7 +211,7 @@ class Network:
 
         return (x_dist + y_dist) ** 0.5
 
-    def get_shortest_route(self, user: Person) -> list[tuple[list[Restaurant], float]]:
+    def get_shortest_route(self, user: Person) -> list[tuple[list[Union[Person, Restaurant]], float]]:
         """Return the shortest route from all possible routes in this network which satifies the person's
         prefernce by ascending distance order.
 
@@ -219,7 +219,7 @@ class Network:
             - len(user.neighbours) > 0
         """
 
-        routes: list[tuple[list[Restaurant], float]] = []
+        routes: list[tuple[list[Union[Person, Restaurant]], float]] = []
 
         for route in user.find_all_routes(len(user.route_plan), set()):
             restaurants = [self._nodes[node.identifier] for node in route]
@@ -228,7 +228,7 @@ class Network:
 
         routes.sort(key=lambda x: x[1])
 
-        return routes[0][0]
+        return routes
 
 
 def load_restuarant_data(file: str) -> list[Restaurant]:
